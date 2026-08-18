@@ -1,0 +1,60 @@
+# --- Env / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+dist/
+build/
+*.egg
+
+# --- Node / frontend ---
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+*.local
+
+# --- uv ---
+uv.lock.tmp
+
+# --- Docker ---
+*.pid
+
+# --- Logs ---
+*.log
+npm-debug.log*
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# --- Alembic (keep versions, ignore local sqlite if ever used) ---
+*.sqlite3
+
+# --- Local working docs (deliberately untracked) ---
+# Living build-status notes and phase implementation plans. These are working
+# documents for the build process, not part of the shipped project — the README
+# carries whatever a reader of the repo actually needs.
+PROGRESS.md
+PHASE_*_PLAN.md
+
+# --- Source mockup archive ---
+# Already extracted to design/ — no need to track the zip as well.
+stitch_questboard_productivity_hub.zip

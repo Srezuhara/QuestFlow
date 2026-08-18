@@ -1,0 +1,163 @@
+/**
+ * Neon Syndicate design tokens — Tailwind v4 CSS-first theme.
+ *
+ * Source of truth: design/neon_syndicate/DESIGN.md (frontmatter `colors`,
+ * `typography`, `spacing`). Values below are carried over verbatim; do not
+ * invent new hex codes or type ramps here — edit DESIGN.md first, then sync.
+ */
+
+@import "tailwindcss";
+
+@import "@fontsource/space-grotesk/400.css";
+@import "@fontsource/space-grotesk/500.css";
+@import "@fontsource/space-grotesk/600.css";
+@import "@fontsource/space-grotesk/700.css";
+@import "@fontsource/geist-sans/400.css";
+@import "@fontsource/geist-sans/500.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+@theme {
+  /* --- Colors — DESIGN.md `colors` (verbatim) --- */
+  --color-surface: #131313;
+  --color-surface-dim: #131313;
+  --color-surface-bright: #393939;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-low: #1c1b1b;
+  --color-surface-container: #201f1f;
+  --color-surface-container-high: #2a2a2a;
+  --color-surface-container-highest: #353534;
+  --color-on-surface: #e5e2e1;
+  --color-on-surface-variant: #c4c9ac;
+  --color-inverse-surface: #e5e2e1;
+  --color-inverse-on-surface: #313030;
+  --color-outline: #8e9379;
+  --color-outline-variant: #444933;
+  --color-surface-tint: #abd600;
+
+  --color-primary: #ffffff;
+  --color-on-primary: #283500;
+  --color-primary-container: #c3f400;
+  --color-on-primary-container: #556d00;
+  --color-inverse-primary: #506600;
+
+  --color-secondary: #ffabf3;
+  --color-on-secondary: #5b005b;
+  --color-secondary-container: #fe00fe;
+  --color-on-secondary-container: #500050;
+
+  --color-tertiary: #ffffff;
+  --color-on-tertiary: #323200;
+  --color-tertiary-container: #eaea00;
+  --color-on-tertiary-container: #686800;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  --color-primary-fixed: #c3f400;
+  --color-primary-fixed-dim: #abd600;
+  --color-on-primary-fixed: #161e00;
+  --color-on-primary-fixed-variant: #3c4d00;
+
+  --color-secondary-fixed: #ffd7f5;
+  --color-secondary-fixed-dim: #ffabf3;
+  --color-on-secondary-fixed: #380038;
+  --color-on-secondary-fixed-variant: #810081;
+
+  --color-tertiary-fixed: #eaea00;
+  --color-tertiary-fixed-dim: #cdcd00;
+  --color-on-tertiary-fixed: #1d1d00;
+  --color-on-tertiary-fixed-variant: #494900;
+
+  --color-background: #131313;
+  --color-on-background: #e5e2e1;
+  --color-surface-variant: #353534;
+
+  /* Semantic neon aliases (plan §5) — the accent trio used across every
+     screen for actions, status badges, and glows. */
+  --color-neon-black: #000000;
+  --color-neon-lime: #c3f400;
+  --color-neon-pink: #fe00fe;
+  --color-neon-yellow: #eaea00;
+  --color-neon-lime-dim: #abd600;
+
+  /* --- Typography — DESIGN.md `typography` (verbatim) --- */
+  --font-display: "Space Grotesk", ui-sans-serif, sans-serif;
+  --font-body: "Geist", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --text-display-lg: 72px;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.04em;
+  --text-display-lg--font-weight: 700;
+
+  --text-headline-lg: 40px;
+  --text-headline-lg--line-height: 1.2;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 700;
+
+  --text-headline-lg-mobile: 32px;
+  --text-headline-lg-mobile--line-height: 1.2;
+  --text-headline-lg-mobile--letter-spacing: -0.02em;
+  --text-headline-lg-mobile--font-weight: 700;
+
+  --text-title-md: 24px;
+  --text-title-md--line-height: 1.4;
+  --text-title-md--letter-spacing: 0.02em;
+  --text-title-md--font-weight: 600;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+  --text-body-md--font-weight: 400;
+
+  --text-label-mono: 14px;
+  --text-label-mono--line-height: 1.2;
+  --text-label-mono--letter-spacing: 0.1em;
+  --text-label-mono--font-weight: 500;
+
+  /* --- Spacing — DESIGN.md `spacing` (verbatim) --- */
+  --spacing: 4px; /* unit — Tailwind's numeric spacing scale multiplies this */
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 64px;
+  --container-max: 1440px;
+}
+
+/* Level 0 — pure black canvas the neon accents pop against (DESIGN.md
+   "Elevation & Depth"). Applied on body since `background` in the token
+   set above is the slightly-lifted #131313 surface used by panels. */
+body {
+  background-color: var(--color-neon-black);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+}
+
+/* Chamfer utility — 45° clipped corners, defined once per DESIGN.md
+   "Shapes" (never re-derived per component). */
+@utility clip-chamfer {
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

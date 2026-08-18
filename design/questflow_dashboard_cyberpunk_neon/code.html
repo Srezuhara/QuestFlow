@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuestFlow Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#c3f400",
+                        "surface-dim": "#131313",
+                        "on-primary-fixed": "#161e00",
+                        "surface-variant": "#353534",
+                        "on-tertiary-container": "#686800",
+                        "primary-fixed": "#c3f400",
+                        "on-secondary-fixed-variant": "#810081",
+                        "outline": "#8e9379",
+                        "tertiary": "#ffffff",
+                        "secondary-container": "#fe00fe",
+                        "tertiary-container": "#eaea00",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "on-secondary-container": "#500050",
+                        "on-background": "#e5e2e1",
+                        "on-surface": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1c1b1b",
+                        "tertiary-fixed-dim": "#cdcd00",
+                        "background": "#131313",
+                        "surface-tint": "#abd600",
+                        "secondary": "#ffabf3",
+                        "tertiary-fixed": "#eaea00",
+                        "on-error-container": "#ffdad6",
+                        "on-surface-variant": "#c4c9ac",
+                        "on-tertiary-fixed-variant": "#494900",
+                        "on-error": "#690005",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary": "#5b005b",
+                        "inverse-primary": "#506600",
+                        "surface-container-highest": "#353534",
+                        "error-container": "#93000a",
+                        "on-primary": "#283500",
+                        "surface-container-high": "#2a2a2a",
+                        "outline-variant": "#444933",
+                        "surface-container": "#201f1f",
+                        "primary": "#ffffff",
+                        "surface-bright": "#393939",
+                        "primary-fixed-dim": "#abd600",
+                        "surface": "#131313",
+                        "on-tertiary-fixed": "#1d1d00",
+                        "secondary-fixed": "#ffd7f5",
+                        "on-tertiary": "#323200",
+                        "on-secondary-fixed": "#380038",
+                        "on-primary-container": "#556d00",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Space Grotesk", "sans-serif"],
+                        "body-md": ["Geist", "sans-serif"],
+                        "title-md": ["Space Grotesk", "sans-serif"],
+                        "display-lg": ["Space Grotesk", "sans-serif"],
+                        "label-mono": ["JetBrains Mono", "monospace"],
+                        "body-lg": ["Geist", "sans-serif"],
+                        "headline-lg": ["Space Grotesk", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "title-md": ["24px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "label-mono": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { background-color: #000000; color: #ffffff; }
+        .cyber-card { background: #121212; border: 1px solid transparent; border-image: linear-gradient(to right, #c3f400, #eaea00) 1; position: relative; overflow: hidden; }
+        .cyber-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(195, 244, 0, 0.05) 3px, rgba(195, 244, 0, 0.05) 4px); pointer-events: none; }
+        .neon-glow-primary { box-shadow: 0 0 8px #c3f400; }
+        .neon-glow-secondary { box-shadow: 0 0 8px #fe00fe; }
+        .neon-border-primary { border: 1px solid #c3f400; }
+        .neon-border-secondary { border: 1px solid #fe00fe; }
+        .text-neon-primary { color: #c3f400; text-shadow: 0 0 4px rgba(195, 244, 0, 0.5); }
+        .text-neon-secondary { color: #fe00fe; text-shadow: 0 0 4px rgba(254, 0, 254, 0.5); }
+        .text-neon-tertiary { color: #eaea00; text-shadow: 0 0 4px rgba(234, 234, 0, 0.5); }
+        
+        .btn-primary { background-color: #c3f400; color: #000000; border: none; font-weight: bold; transition: all 0.2s ease; }
+        .btn-primary:hover { box-shadow: 0 0 12px #c3f400; transform: scale(1.02); }
+        
+        .btn-secondary { background-color: transparent; color: #fe00fe; border: 1px solid #fe00fe; font-weight: bold; transition: all 0.2s ease; }
+        .btn-secondary:hover { box-shadow: 0 0 12px #fe00fe; background-color: rgba(254, 0, 254, 0.1); }
+        
+        .scanline { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: rgba(195, 244, 0, 0.3); opacity: 0.5; animation: scan 3s linear infinite; pointer-events: none; z-index: 10; }
+        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
+        
+        .glitch-hover:hover { animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite; }
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(-5deg); }
+            40% { transform: skew(5deg); }
+            60% { transform: skew(-2deg); }
+            80% { transform: skew(2deg); }
+            100% { transform: skew(0deg); }
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md text-on-surface antialiased bg-black overflow-x-hidden min-h-screen flex selection:bg-primary-container selection:text-black">
+<!-- Top Navigation (Mobile Only) -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile py-4 bg-background border-b border-primary-container z-50 sticky top-0 shadow-[0px_0px_8px_#c3f400]">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary tracking-tighter italic">QUESTFLOW</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary-container hover:text-secondary-container transition-colors cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-primary-container hover:text-secondary-container transition-colors cursor-pointer">person</span>
+</div>
+</header>
+<!-- Side Navigation (Web Only) -->
+<nav class="hidden md:flex flex-col h-screen fixed left-0 top-0 w-64 bg-surface-container-low border-r border-primary-container py-margin-desktop z-40">
+<div class="px-6 mb-12">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary mb-2 glitch-hover cursor-default italic">QUESTFLOW</h1>
+</div>
+<div class="px-6 mb-8 text-center flex flex-col items-center">
+<div class="w-24 h-24 rounded-full border-2 border-primary-container p-1 mb-4 relative neon-glow-primary group cursor-pointer">
+<img alt="Architect Avatar" class="w-full h-full rounded-full object-cover filter contrast-125 saturate-150 group-hover:sepia transition-all duration-300" data-alt="A futuristic cyberpunk avatar portrait of a stylized character wearing high-tech visors and glowing neon augmentations. The lighting is harsh and directional, emphasizing sharp angles and extreme contrast. Cyber lime and hot pink accents pierce the darkness, creating a high-voltage retro-futuristic hacker aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc7Ygc74fbu2yDKDyEaY7tXR59FoHoDZ4ruqymbq5hRbBA1iO_U20U44PkBD6lYn1fDWjKXaQAScCYdM1Pf_KfO01m8V7DZ_-Kr7zc_GmpkBVWl-dP-XEI9mLroccEK5bq2I_Stk3nS3_ghy8bstW1mHUqrLWRCaY6G0PHRfUn0r6TbICcAdi5mATN5j261uCn9VqQnAXq6cHHm47qpPdF1wEsC-eJlv5TmoKY4Z6fZ3OLfBRdpCA_"/>
+<div class="absolute -bottom-2 -right-2 bg-primary-container text-black font-label-mono text-[10px] px-2 py-1 rounded-sm shadow-[0_0_5px_#c3f400] font-bold">LVL 24</div>
+</div>
+<h2 class="font-title-md text-title-md text-primary tracking-widest uppercase text-neon-primary">LVL 24 ARCHITECT</h2>
+<div class="w-full bg-surface-variant h-2 mt-2 rounded-none overflow-hidden border border-outline">
+<div class="h-full bg-primary-container w-[85%] neon-glow-primary"></div>
+</div>
+<p class="font-label-mono text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">XP: 85% TO NEXT LEVEL</p>
+</div>
+<div class="flex-1 flex flex-col gap-2 px-4 mt-4">
+<!-- Active Tab -->
+<a class="flex items-center gap-unit bg-primary-container text-black rounded-none border-l-4 border-white p-4 font-bold shadow-[0_0_10px_#c3f400] translate-x-1 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-mono text-label-mono uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="flex items-center gap-unit text-on-surface-variant p-4 hover:bg-surface-variant hover:text-primary-container transition-all hover:translate-x-1 border-l-4 border-transparent hover:border-primary-container group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">bolt</span>
+<span class="font-label-mono text-label-mono uppercase tracking-widest group-hover:text-primary-container transition-colors">Habits</span>
+</a>
+<a class="flex items-center gap-unit text-on-surface-variant p-4 hover:bg-surface-variant hover:text-primary-container transition-all hover:translate-x-1 border-l-4 border-transparent hover:border-primary-container group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">alarm</span>
+<span class="font-label-mono text-label-mono uppercase tracking-widest group-hover:text-primary-container transition-colors">Reminders</span>
+</a>
+<a class="flex items-center gap-unit text-on-surface-variant p-4 hover:bg-surface-variant hover:text-primary-container transition-all hover:translate-x-1 border-l-4 border-transparent hover:border-primary-container group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-container transition-colors">description</span>
+<span class="font-label-mono text-label-mono uppercase tracking-widest group-hover:text-primary-container transition-colors">Notes</span>
+</a>
+</div>
+<div class="px-6 mt-auto mb-8">
+<button class="w-full btn-primary py-3 font-label-mono text-label-mono uppercase tracking-widest flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                NEW QUEST
+            </button>
+</div>
+<div class="px-4 border-t border-outline-variant pt-4 flex flex-col gap-2">
+<a class="flex items-center gap-unit text-on-surface-variant p-3 hover:text-primary-container transition-colors group" href="#">
+<span class="material-symbols-outlined text-[18px]">settings</span>
+<span class="font-label-mono text-[12px] uppercase tracking-widest">Settings</span>
+</a>
+<a class="flex items-center gap-unit text-on-surface-variant p-3 hover:text-error transition-colors group" href="#">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span class="font-label-mono text-[12px] uppercase tracking-widest">Log Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-gutter lg:p-margin-desktop min-h-screen flex flex-col relative overflow-hidden">
+<!-- Background Grid Effect -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-20" style="background-image: linear-gradient(#353534 1px, transparent 1px), linear-gradient(90deg, #353534 1px, transparent 1px); background-size: 32px 32px;"></div>
+<div class="relative z-10 w-full max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter md:gap-8 auto-rows-min">
+<!-- Header Section -->
+<header class="lg:col-span-12 flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-surface-variant pb-4">
+<div>
+<p class="font-label-mono text-primary-container mb-2 uppercase tracking-widest text-sm">System Status: <span class="animate-pulse">Optimal</span></p>
+<h2 class="font-display-lg text-display-lg font-bold text-primary tracking-tighter uppercase glitch-hover">Command Center</h2>
+</div>
+<div class="mt-4 md:mt-0 flex gap-4">
+<button class="btn-secondary px-6 py-2 font-label-mono text-sm uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">filter_alt</span> Filter
+                    </button>
+</div>
+</header>
+<!-- Daily Quests List (Bento Box - Large) -->
+<section class="lg:col-span-8 flex flex-col gap-6">
+<div class="cyber-card p-6 h-full flex flex-col">
+<div class="scanline"></div>
+<div class="flex justify-between items-center mb-6 border-b border-surface-variant pb-4">
+<h3 class="font-title-md text-title-md text-primary uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">list_alt</span>
+                            Daily Objectives
+                        </h3>
+<span class="bg-primary-container text-black font-label-mono text-xs px-2 py-1 font-bold">4 ACTIVE</span>
+</div>
+<div class="flex flex-col gap-4 flex-1">
+<!-- Quest Item 1 - Urgent -->
+<div class="group flex items-start gap-4 p-4 border border-outline-variant hover:border-secondary-container bg-surface-dim hover:bg-surface-container transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container group-hover:shadow-[0_0_10px_#fe00fe] transition-shadow"></div>
+<button class="mt-1 w-6 h-6 border-2 border-secondary-container flex items-center justify-center hover:bg-secondary-container/20 transition-colors shrink-0">
+<span class="material-symbols-outlined text-[16px] text-transparent group-hover:text-secondary-container/50">check</span>
+</button>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg text-primary group-hover:text-neon-secondary transition-colors uppercase">Deploy Mainframe Patch v2.4</h4>
+<span class="font-label-mono text-secondary-container text-xs border border-secondary-container px-2 py-0.5 whitespace-nowrap">URGENT</span>
+</div>
+<p class="text-on-surface-variant text-sm font-label-mono mb-3">Critical system update required to prevent data leakage.</p>
+<div class="flex items-center gap-4 text-xs font-label-mono text-on-surface-variant">
+<span class="flex items-center gap-1 text-primary-container"><span class="material-symbols-outlined text-[14px]">stars</span> +500 XP</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> 2h remaining</span>
+</div>
+</div>
+</div>
+<!-- Quest Item 2 - Important -->
+<div class="group flex items-start gap-4 p-4 border border-outline-variant hover:border-primary-container bg-surface-dim hover:bg-surface-container transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container group-hover:shadow-[0_0_10px_#c3f400] transition-shadow"></div>
+<button class="mt-1 w-6 h-6 border-2 border-primary-container flex items-center justify-center hover:bg-primary-container/20 transition-colors shrink-0">
+<span class="material-symbols-outlined text-[16px] text-transparent group-hover:text-primary-container/50">check</span>
+</button>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg text-primary group-hover:text-neon-primary transition-colors uppercase">Compile Weekly Intelligence Report</h4>
+<span class="font-label-mono text-primary-container text-xs border border-primary-container px-2 py-0.5 whitespace-nowrap">IMPORTANT</span>
+</div>
+<p class="text-on-surface-variant text-sm font-label-mono mb-3">Gather data from sector 7 anomalies.</p>
+<div class="flex items-center gap-4 text-xs font-label-mono text-on-surface-variant">
+<span class="flex items-center gap-1 text-primary-container"><span class="material-symbols-outlined text-[14px]">stars</span> +250 XP</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span> EOD</span>
+</div>
+</div>
+</div>
+<!-- Quest Item 3 - Warning -->
+<div class="group flex items-start gap-4 p-4 border border-outline-variant hover:border-tertiary-container bg-surface-dim hover:bg-surface-container transition-all cursor-pointer relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container group-hover:shadow-[0_0_10px_#eaea00] transition-shadow"></div>
+<button class="mt-1 w-6 h-6 border-2 border-tertiary-container flex items-center justify-center hover:bg-tertiary-container/20 transition-colors shrink-0">
+<span class="material-symbols-outlined text-[16px] text-transparent group-hover:text-tertiary-container/50">check</span>
+</button>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg text-primary group-hover:text-neon-tertiary transition-colors uppercase">Analyze Neural Net Fluctuations</h4>
+<span class="font-label-mono text-tertiary-container text-xs border border-tertiary-container px-2 py-0.5 whitespace-nowrap">WARNING</span>
+</div>
+<p class="text-on-surface-variant text-sm font-label-mono mb-3">Spikes detected in primary logic circuits.</p>
+<div class="flex items-center gap-4 text-xs font-label-mono text-on-surface-variant">
+<span class="flex items-center gap-1 text-primary-container"><span class="material-symbols-outlined text-[14px]">stars</span> +150 XP</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">monitoring</span> Data Stream</span>
+</div>
+</div>
+</div>
+<!-- Quest Item 4 - Later -->
+<div class="group flex items-start gap-4 p-4 border border-outline-variant hover:border-outline bg-surface-dim hover:bg-surface-container transition-all cursor-pointer relative overflow-hidden opacity-75 hover:opacity-100">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-outline group-hover:bg-outline-variant transition-colors"></div>
+<button class="mt-1 w-6 h-6 border-2 border-outline flex items-center justify-center hover:bg-outline/20 transition-colors shrink-0">
+<span class="material-symbols-outlined text-[16px] text-transparent group-hover:text-outline/50">check</span>
+</button>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-lg text-on-surface-variant uppercase">Review Archive Logs</h4>
+<span class="font-label-mono text-outline text-xs border border-outline px-2 py-0.5 whitespace-nowrap">LATER</span>
+</div>
+<div class="flex items-center gap-4 text-xs font-label-mono text-on-surface-variant mt-2">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">stars</span> +50 XP</span>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 border border-dashed border-primary-container text-primary-container font-label-mono text-sm uppercase tracking-widest hover:bg-primary-container/10 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">add</span> Add Sub-Routine
+                    </button>
+</div>
+</section>
+<!-- Right Column - Sidebar Widgets -->
+<aside class="lg:col-span-4 flex flex-col gap-6">
+<!-- Terminal / Log Output -->
+<div class="cyber-card p-4 h-64 flex flex-col border-secondary-container/50">
+<h3 class="font-label-mono text-xs text-secondary-container uppercase tracking-widest mb-2 flex items-center gap-2 border-b border-surface-variant pb-2">
+<span class="material-symbols-outlined text-[14px]">terminal</span> System_Log
+                    </h3>
+<div class="flex-1 overflow-y-auto font-label-mono text-xs text-on-surface-variant flex flex-col gap-1 leading-relaxed scrollbar-hide">
+<p><span class="text-primary-container">&gt;</span> INIT SEQUENCE START</p>
+<p><span class="text-primary-container">&gt;</span> LOADING MODULE: GUILD_DATA...</p>
+<p><span class="text-tertiary-container">&gt;</span> WARN: LATENCY DETECTED ON NODE 0x4F</p>
+<p><span class="text-primary-container">&gt;</span> CONNECTED TO MAINFRAME [IP: CONFIDENTIAL]</p>
+<p class="text-secondary-container">&gt; OVERRIDE INITIATED BY USER_ID: 8942</p>
+<p><span class="text-primary-container">&gt;</span> FETCHING QUEUE...</p>
+<p class="text-primary-container">&gt; 3 NEW MESSAGES SECURED.</p>
+<p class="animate-pulse">&gt; _</p>
+</div>
+</div>
+<!-- Guild Activity Feed -->
+<div class="cyber-card p-5 border-tertiary-container/50">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-title-md text-lg text-primary uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container">hub</span>
+                            Network Activity
+                        </h3>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex gap-3 items-start p-2 hover:bg-surface-container transition-colors">
+<div class="w-8 h-8 rounded-none border border-tertiary-container overflow-hidden shrink-0">
+<img alt="User Avatar" class="w-full h-full object-cover filter contrast-125 saturate-150" data-alt="A small square avatar showing a glowing neon skull icon with crossed cables behind it, rendered in a low-poly cyberpunk style on a pure black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCqT0owhiUMPUlLItOakAEwGJXY9Kif7FgPnLAQa47LHDx_eqYtLkHf4gbI1BeuGxI3f88P1PwDvIFKftYqAUaTdE3CJXJqWra6xmylTYeJFSMPTIPcD0YE2WmLfUC0qEC8-RVn_E2m9Wof7yvwHAYFhgMfSqCTcs63zF9nH0L7uuNSJJxe4GHpSJYyDpnmK0hp0oNiqfsgFkG29Dxc63FevbcjrAeIzn7iQwE1iBILC2winmmn71G"/>
+</div>
+<div>
+<p class="text-sm font-label-mono leading-tight"><span class="text-tertiary-container font-bold">@CipherPunk</span> completed quest <span class="text-primary">"Decrypt Core Node"</span></p>
+<p class="text-[10px] text-on-surface-variant font-label-mono mt-1">2 MINS AGO</p>
+</div>
+</div>
+<div class="flex gap-3 items-start p-2 hover:bg-surface-container transition-colors">
+<div class="w-8 h-8 rounded-none border border-primary-container overflow-hidden shrink-0">
+<img alt="User Avatar" class="w-full h-full object-cover filter contrast-125 saturate-150" data-alt="A small square avatar showing a robotic eye with a glowing lime green iris, heavily stylized with pixel art aesthetic and dark shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEPH9gwW59-a7kPOvRH43_DiEpzN5TvYqro8afKSk1t0y72hejR4tBuMt2_nmNwLIUJQ5a6F2u-o8YSl0dtBL94fx6kHEud9VeaG6SL64mOaJxiGgu1ZBPGYPexyvSzC1Az_9xVv9kKU3Q8KxjG34axw0JmO1RwWaXmxJ1j4KbeMHFvKihRk-vI-jvxJVsI-9a0I7xuPuS9aeW7RZyWYkBawQiE5FOPt9GR9er4uunxVs-Z9pPEVYV"/>
+</div>
+<div>
+<p class="text-sm font-label-mono leading-tight"><span class="text-primary-container font-bold">@NeonRunner</span> leveled up to <span class="text-primary">LVL 42</span></p>
+<p class="text-[10px] text-on-surface-variant font-label-mono mt-1">15 MINS AGO</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Upcoming Quests (Due Tomorrow / Next Week) -->
+<div class="cyber-card p-5">
+<h3 class="font-title-md text-lg text-primary uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">calendar_month</span>
+                        Future Pipeline
+                    </h3>
+<div class="mb-4">
+<h4 class="font-label-mono text-xs text-on-surface-variant uppercase tracking-widest border-b border-surface-variant pb-1 mb-2">Due Tomorrow</h4>
+<div class="flex items-center gap-2 py-2 border-l-2 border-outline-variant pl-2 hover:border-primary-container transition-colors cursor-pointer group">
+<span class="w-2 h-2 rounded-full bg-outline-variant group-hover:bg-primary-container group-hover:shadow-[0_0_5px_#c3f400]"></span>
+<span class="font-label-mono text-sm text-primary group-hover:text-primary-container transition-colors">Client Briefing: Sector 9</span>
+</div>
+<div class="flex items-center gap-2 py-2 border-l-2 border-outline-variant pl-2 hover:border-primary-container transition-colors cursor-pointer group">
+<span class="w-2 h-2 rounded-full bg-outline-variant group-hover:bg-primary-container group-hover:shadow-[0_0_5px_#c3f400]"></span>
+<span class="font-label-mono text-sm text-primary group-hover:text-primary-container transition-colors">Submit Code Review</span>
+</div>
+</div>
+<div>
+<h4 class="font-label-mono text-xs text-on-surface-variant uppercase tracking-widest border-b border-surface-variant pb-1 mb-2">Next Week</h4>
+<div class="flex items-center gap-2 py-2 border-l-2 border-outline-variant pl-2 hover:border-secondary-container transition-colors cursor-pointer group">
+<span class="w-2 h-2 rounded-full bg-outline-variant group-hover:bg-secondary-container group-hover:shadow-[0_0_5px_#fe00fe]"></span>
+<span class="font-label-mono text-sm text-primary group-hover:text-secondary-container transition-colors">Quarterly Data Purge</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Bottom Full-Width Section: Leaderboard -->
+<section class="lg:col-span-12 cyber-card p-6 mt-4">
+<div class="flex justify-between items-center mb-6 border-b border-surface-variant pb-4">
+<h3 class="font-title-md text-title-md text-primary uppercase tracking-widest flex items-center gap-2 text-neon-tertiary">
+<span class="material-symbols-outlined text-tertiary-container">leaderboard</span>
+                        Top Architects Ranking
+                    </h3>
+<button class="text-xs font-label-mono text-on-surface-variant hover:text-tertiary-container transition-colors">VIEW ALL &gt;&gt;</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Rank 1 -->
+<div class="bg-surface-dim border border-tertiary-container/30 p-4 flex items-center gap-4 hover:border-tertiary-container hover:shadow-[0_0_15px_rgba(234,234,0,0.2)] transition-all cursor-pointer">
+<div class="text-2xl font-bold font-display-lg text-tertiary-container w-8 text-center drop-shadow-[0_0_5px_#eaea00]">1</div>
+<div class="w-12 h-12 border-2 border-tertiary-container p-0.5">
+<img alt="Rank 1" class="w-full h-full object-cover filter contrast-125 saturate-150" data-alt="Cyberpunk portrait of an elite hacker in a glowing yellow tactical hood, face obscured by a glowing digital mask, stark lighting on pure black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAod12D13pKsd53gKUBZUO4gxGWEML_BrMInSlQePk4yTX4jCprIaohq7FECncgCFDHWdgDW09SuF6M7kAyxBB2_o0UobZ0ZhNvY63tQZvasObOh_x1gSQKZE8Yqc02d_kx69lcS0hWR7zDwDxhgZuODMtwzTID5bSEcrGBKu7snCOJLsv-KRkuUJ2gJRiQb9yu59eD5Sr4CnoBZcVI5I1_xWzu4SqL-JvnOwdx4TJIQE7tZVoA1gSY"/>
+</div>
+<div>
+<h4 class="font-bold text-primary uppercase">GhostInTheShell</h4>
+<p class="font-label-mono text-xs text-tertiary-container">LVL 99 | 1.2M XP</p>
+</div>
+</div>
+<!-- Rank 2 -->
+<div class="bg-surface-dim border border-surface-variant p-4 flex items-center gap-4 hover:border-outline transition-all cursor-pointer">
+<div class="text-2xl font-bold font-display-lg text-on-surface-variant w-8 text-center">2</div>
+<div class="w-12 h-12 border-2 border-on-surface-variant p-0.5">
+<img alt="Rank 2" class="w-full h-full object-cover filter contrast-125 saturate-150 grayscale hover:grayscale-0 transition-all" data-alt="Stylized avatar of a street samurai with chrome augmentations and a glowing red cybernetic eye, muted colors with high contrast on black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6GEH48GNEhYHIpZzr7HVcH3Clr-_nFK7VYw5Cmx9HETLg4fqsbg3pyEWp-uL01s4gzFoEvv4w1wW85rtJSYn14SkEsOnL1lGKlswAM_Wm60vA_w4Y4QxuUj2bEu1cLc9ZaIcYDTHuyvgi_kV2xSS2IO5eGd5GJOpx0ji1PAvXRfsKF-lurBPHRbqX_qfqCEEauZ1L_5ek4FWxwOiDCFaz211maAEC9WYyoTXryk-YDei-xo9qtQv4"/>
+</div>
+<div>
+<h4 class="font-bold text-primary uppercase">ZeroDay</h4>
+<p class="font-label-mono text-xs text-on-surface-variant">LVL 94 | 980K XP</p>
+</div>
+</div>
+<!-- Rank 3 -->
+<div class="bg-surface-dim border border-surface-variant p-4 flex items-center gap-4 hover:border-outline transition-all cursor-pointer">
+<div class="text-2xl font-bold font-display-lg text-on-surface-variant w-8 text-center">3</div>
+<div class="w-12 h-12 border-2 border-on-surface-variant p-0.5">
+<img alt="Rank 3" class="w-full h-full object-cover filter contrast-125 saturate-150 grayscale hover:grayscale-0 transition-all" data-alt="Avatar featuring a stylized retro computer monitor with a glowing green terminal prompt for a face, surrounded by tangled wires on a black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe3tyK6YdWQTroSrJZOz4GSZDZrtPC91Lwa-bvo5bLHZgJADLL1OnwsLy3Gykj9hVciZFg-0awrpq_ttpu5M_bnLFRFrP_-gdmUm3ZiernQyuyNEFmjPTF_IGHrfL7HYmeQ_MduP1_ek07G4ieIS50Y8rPnFUGqMaeTR031jTUcVTJENioygW9pKMgTHpm4zvMeyWZLJ98C9T9qLiKY2QoCHxl_iyjO1L3H7IyC6ygR8D2fkboPC3z"/>
+</div>
+<div>
+<h4 class="font-bold text-primary uppercase">NullPointer</h4>
+<p class="font-label-mono text-xs text-on-surface-variant">LVL 88 | 850K XP</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low border-t border-primary-container z-50 py-2 px-4 shadow-[0px_0px_8px_#c3f400]">
+<div class="flex justify-between items-center h-14">
+<a class="flex flex-col items-center justify-center w-full text-primary-container" href="#">
+<div class="bg-primary-container text-black rounded-sm px-4 py-1 mb-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+</div>
+<span class="font-label-mono text-[10px] uppercase font-bold">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full text-on-surface-variant hover:text-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">bolt</span>
+<span class="font-label-mono text-[10px] uppercase">Habits</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full text-on-surface-variant hover:text-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">alarm</span>
+<span class="font-label-mono text-[10px] uppercase">Reminders</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full text-on-surface-variant hover:text-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">description</span>
+<span class="font-label-mono text-[10px] uppercase">Notes</span>
+</a>
+</div>
+</nav>
+<!-- Mobile padding for bottom nav -->
+<div class="h-20 md:hidden w-full bg-transparent"></div>
+</body></html>

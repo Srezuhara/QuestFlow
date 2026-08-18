@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Time Keeper - Cyberpunk Time Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;family=Geist:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#444933",
+                        "on-secondary-fixed": "#380038",
+                        "primary-fixed": "#c3f400",
+                        "surface-container-high": "#2a2a2a",
+                        "on-background": "#e5e2e1",
+                        "surface-variant": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-tint": "#abd600",
+                        "on-primary-fixed": "#161e00",
+                        "inverse-primary": "#506600",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-container": "#fe00fe",
+                        "tertiary-container": "#eaea00",
+                        "primary-container": "#c3f400",
+                        "on-secondary": "#5b005b",
+                        "on-tertiary": "#323200",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353534",
+                        "surface-dim": "#131313",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed-variant": "#494900",
+                        "surface": "#131313",
+                        "secondary": "#ffabf3",
+                        "surface-container-lowest": "#0e0e0e",
+                        "background": "#131313",
+                        "on-secondary-container": "#500050",
+                        "on-secondary-fixed-variant": "#810081",
+                        "on-surface-variant": "#c4c9ac",
+                        "on-tertiary-container": "#686800",
+                        "on-primary-container": "#556d00",
+                        "on-primary": "#283500",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "outline": "#8e9379",
+                        "tertiary-fixed-dim": "#cdcd00",
+                        "surface-bright": "#393939",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-surface": "#e5e2e1",
+                        "tertiary-fixed": "#eaea00",
+                        "primary": "#ffffff",
+                        "tertiary": "#ffffff",
+                        "inverse-on-surface": "#313030",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "secondary-fixed": "#ffd7f5",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#1d1d00",
+                        "primary-fixed-dim": "#abd600"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "margin-desktop": "64px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "title-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-mono": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-md": ["24px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #000000; color: #ffffff; }
+        .cyber-border-lime { border: 1px solid #c3f400; box-shadow: 0 0 8px rgba(195, 244, 0, 0.4); }
+        .cyber-border-pink { border: 1px solid #ffabf3; box-shadow: 0 0 8px rgba(255, 171, 243, 0.4); }
+        .cyber-border-yellow { border: 1px solid #eaea00; box-shadow: 0 0 8px rgba(234, 234, 0, 0.4); }
+        
+        .cyber-glow-lime { text-shadow: 0 0 8px rgba(195, 244, 0, 0.8); }
+        .cyber-glow-pink { text-shadow: 0 0 8px rgba(255, 171, 243, 0.8); }
+        
+        .scanline-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .timeline-line {
+            width: 2px;
+            background: linear-gradient(to bottom, #c3f400, #ffabf3);
+            box-shadow: 0 0 8px #c3f400;
+        }
+        
+        .timeline-node {
+            width: 12px;
+            height: 12px;
+            background-color: #000;
+            border: 2px solid #c3f400;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #c3f400;
+        }
+        
+        .digital-clock {
+            font-family: 'JetBrains Mono', monospace;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Nav specific overrides for visual tokens */
+        .cyber-nav-item:hover { color: #c3f400; text-shadow: 0 0 8px rgba(195, 244, 0, 0.5); }
+        .cyber-nav-active { border-color: #c3f400; box-shadow: -4px 0 8px -4px rgba(195, 244, 0, 0.8); }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col md:flex-row overflow-x-hidden selection:bg-primary-container selection:text-on-primary-fixed">
+<!-- Side Nav (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen fixed left-0 top-0 w-64 py-margin-desktop bg-[#121212] border-r border-[#c3f400] z-50 shadow-[4px_0_12px_rgba(195,244,0,0.2)]">
+<div class="px-6 mb-12">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter italic cyber-glow-lime">QUESTFLOW</h1>
+</div>
+<div class="px-4 mb-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full border border-[#ffabf3] shadow-[0_0_8px_#ffabf3] overflow-hidden flex items-center justify-center bg-surface">
+<span class="material-symbols-outlined text-[#ffabf3]">person</span>
+</div>
+<div>
+<div class="font-label-mono text-label-mono text-[#c3f400]">LVL 24 ARCHITECT</div>
+<div class="font-label-mono text-[10px] text-on-surface-variant mt-1">XP: 85% TO NEXT LEVEL</div>
+</div>
+</div>
+<div class="px-4 mb-8">
+<button class="w-full bg-[#c3f400] text-[#000000] font-label-mono text-label-mono py-3 hover:bg-[#a0c800] hover:shadow-[0_0_12px_#c3f400] transition-all">
+                NEW QUEST
+            </button>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-unit text-on-surface-variant p-4 cyber-nav-item transition-all font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-unit text-[#c3f400] bg-[#1a1a1a] p-4 cyber-nav-active border-l-4 transition-all font-label-mono text-label-mono font-bold cyber-glow-lime" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                Habits
+            </a>
+<a class="flex items-center gap-unit text-on-surface-variant p-4 cyber-nav-item transition-all font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">alarm</span>
+                Reminders
+            </a>
+<a class="flex items-center gap-unit text-on-surface-variant p-4 cyber-nav-item transition-all font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+                Notes
+            </a>
+</div>
+<div class="mt-auto flex flex-col gap-2">
+<a class="flex items-center gap-unit text-on-surface-variant p-4 cyber-nav-item transition-all font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-unit text-[#ffabf3] p-4 hover:bg-[#1a1a1a] transition-all font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+                Log Out
+            </a>
+</div>
+</nav>
+<!-- Top Nav (Mobile) -->
+<nav class="md:hidden flex justify-between items-center w-full px-margin-mobile py-4 bg-[#121212] border-b border-[#c3f400] shadow-[0_4px_12px_rgba(195,244,0,0.2)] fixed top-0 z-50">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary tracking-tighter italic cyber-glow-lime">QUESTFLOW</h1>
+<div class="flex gap-4">
+<button class="text-primary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-primary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 pt-20 md:pt-margin-desktop px-margin-mobile md:px-margin-desktop pb-24 md:pb-margin-desktop min-h-screen relative">
+<div class="scanline-overlay"></div>
+<!-- Header -->
+<header class="mb-12 relative z-20">
+<h2 class="font-display-lg text-display-lg md:text-display-lg font-bold text-primary tracking-tighter uppercase mb-2 cyber-glow-lime">TIME KEEPER</h2>
+<div class="flex items-center gap-4 font-label-mono text-label-mono text-on-surface-variant">
+<span class="text-[#c3f400]">[SYSTEM ONLINE]</span>
+<span class="text-[#ffabf3]">OCTOBER_2023.LOG</span>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter relative z-20">
+<!-- Focus Timer Widget (Col 1-8) -->
+<section class="md:col-span-8 bg-[#121212] cyber-border-lime p-8 flex flex-col items-center justify-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-[#c3f400] opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"></div>
+<div class="font-label-mono text-label-mono text-[#ffabf3] uppercase tracking-widest mb-6 cyber-glow-pink">FOCUS_LINK_ACTIVE</div>
+<div class="digital-clock text-7xl md:text-[120px] font-bold text-primary cyber-glow-lime mb-12 tracking-tighter">
+                    25:00
+                </div>
+<div class="flex gap-6">
+<button class="w-16 h-16 rounded-full border border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-[#000] hover:shadow-[0_0_16px_#fff] transition-all">
+<span class="material-symbols-outlined text-3xl">replay</span>
+</button>
+<button class="w-24 h-16 bg-[#c3f400] text-[#000] rounded-none flex items-center justify-center hover:bg-[#a0c800] hover:shadow-[0_0_24px_#c3f400] transition-all font-bold">
+<span class="material-symbols-outlined text-4xl">play_arrow</span>
+</button>
+<button class="w-16 h-16 rounded-full border border-[#ffabf3] text-[#ffabf3] flex items-center justify-center hover:bg-[#ffabf3] hover:text-[#000] hover:shadow-[0_0_16px_#ffabf3] transition-all">
+<span class="material-symbols-outlined text-3xl">stop</span>
+</button>
+</div>
+</section>
+<!-- Mission Timeline (Col 9-12) -->
+<section class="md:col-span-4 bg-[#121212] cyber-border-pink p-6 relative overflow-hidden flex flex-col h-[500px]">
+<h3 class="font-title-md text-title-md text-[#ffabf3] font-bold mb-6 cyber-glow-pink uppercase border-b border-[#ffabf3] pb-2">MISSION_LOG</h3>
+<div class="flex-1 overflow-y-auto pr-4 space-y-8 relative">
+<!-- Vertical Timeline Line -->
+<div class="absolute left-6 top-2 bottom-0 timeline-line"></div>
+<!-- Node 1 -->
+<div class="relative flex gap-6 pl-4 group">
+<div class="absolute left-[3px] top-1.5 timeline-node group-hover:scale-150 transition-transform bg-[#c3f400]"></div>
+<div class="flex-1">
+<div class="font-label-mono text-label-mono text-[#c3f400] mb-1">09:00 // INIT</div>
+<div class="font-body-md text-body-md text-primary">Daily Standup Sync</div>
+</div>
+</div>
+<!-- Node 2 -->
+<div class="relative flex gap-6 pl-4 group">
+<div class="absolute left-[3px] top-1.5 timeline-node group-hover:scale-150 transition-transform bg-transparent border-[#ffabf3] shadow-[0_0_8px_#ffabf3]"></div>
+<div class="flex-1">
+<div class="font-label-mono text-label-mono text-[#ffabf3] mb-1">11:30 // HIGH_PRIORITY</div>
+<div class="font-body-md text-body-md text-primary bg-[#1a1a1a] p-3 border border-[#ffabf3]">Deploy UI Framework v2.4</div>
+</div>
+</div>
+<!-- Node 3 -->
+<div class="relative flex gap-6 pl-4 group">
+<div class="absolute left-[3px] top-1.5 timeline-node group-hover:scale-150 transition-transform bg-transparent border-[#eaea00] shadow-[0_0_8px_#eaea00]"></div>
+<div class="flex-1">
+<div class="font-label-mono text-label-mono text-[#eaea00] mb-1">14:00 // STANDBY</div>
+<div class="font-body-md text-body-md text-on-surface-variant">Design Review: Neural Net Interface</div>
+</div>
+</div>
+<!-- Node 4 -->
+<div class="relative flex gap-6 pl-4 group opacity-50">
+<div class="absolute left-[3px] top-1.5 timeline-node bg-transparent border-outline-variant shadow-none"></div>
+<div class="flex-1">
+<div class="font-label-mono text-label-mono text-outline-variant mb-1">17:00 // TERMINATE</div>
+<div class="font-body-md text-body-md text-outline-variant">System Shutdown Protocol</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Calendar Widget (Col 1-12) -->
+<section class="md:col-span-12 bg-[#121212] border border-outline-variant p-6 relative">
+<div class="flex justify-between items-center mb-6 border-b border-outline-variant pb-4">
+<h3 class="font-title-md text-title-md text-primary font-bold uppercase tracking-widest">DATA_GRID: OCT_2023</h3>
+<div class="flex gap-2">
+<button class="text-on-surface-variant hover:text-[#c3f400] transition-colors"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="text-on-surface-variant hover:text-[#c3f400] transition-colors"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1 md:gap-unit font-label-mono text-label-mono text-center mb-2 text-on-surface-variant">
+<div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
+</div>
+<div class="grid grid-cols-7 gap-1 md:gap-unit">
+<!-- Empty slots for alignment -->
+<div class="aspect-square bg-[#0a0a0a] border border-[#1a1a1a]"></div>
+<!-- Days -->
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">1</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">2</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">3</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">4</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">5</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">6</div>
+<!-- More days... simplified for layout demo -->
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">7</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">8</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">9</div>
+<!-- Active Day -->
+<div class="aspect-square bg-[#1a1a1a] cyber-border-lime flex flex-col items-center justify-center cursor-pointer text-[#c3f400] font-bold shadow-[inset_0_0_12px_rgba(195,244,0,0.2)]">
+<span>10</span>
+<div class="w-1.5 h-1.5 rounded-full bg-[#ffabf3] mt-1 shadow-[0_0_4px_#ffabf3]"></div>
+</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">11</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">12</div>
+<div class="aspect-square bg-[#131313] border border-[#2a2a2a] flex items-center justify-center hover:border-[#c3f400] hover:bg-[#1a1a1a] transition-colors cursor-pointer text-on-surface-variant">13</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Nav (Mobile) -->
+<nav class="md:hidden flex justify-around items-center w-full px-margin-mobile py-3 bg-[#121212] border-t border-[#c3f400] shadow-[0_-4px_12px_rgba(195,244,0,0.2)] fixed bottom-0 z-50">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-[#c3f400] transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-mono text-[10px]">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-[#c3f400] cyber-glow-lime transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-label-mono text-[10px] font-bold">Habits</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-[#c3f400] transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">alarm</span>
+<span class="font-label-mono text-[10px]">Reminders</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-[#c3f400] transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+<span class="font-label-mono text-[10px]">Notes</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Knowledge Vault</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#444933",
+                        "on-secondary-fixed": "#380038",
+                        "primary-fixed": "#c3f400",
+                        "surface-container-high": "#2a2a2a",
+                        "on-background": "#e5e2e1",
+                        "surface-variant": "#353534",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-tint": "#abd600",
+                        "on-primary-fixed": "#161e00",
+                        "inverse-primary": "#506600",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-container": "#fe00fe",
+                        "tertiary-container": "#eaea00",
+                        "primary-container": "#c3f400",
+                        "on-secondary": "#5b005b",
+                        "on-tertiary": "#323200",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#353534",
+                        "surface-dim": "#131313",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed-variant": "#494900",
+                        "surface": "#131313",
+                        "secondary": "#ffabf3",
+                        "surface-container-lowest": "#0e0e0e",
+                        "background": "#131313",
+                        "on-secondary-container": "#500050",
+                        "on-secondary-fixed-variant": "#810081",
+                        "on-surface-variant": "#c4c9ac",
+                        "on-tertiary-container": "#686800",
+                        "on-primary-container": "#556d00",
+                        "on-primary": "#283500",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "outline": "#8e9379",
+                        "tertiary-fixed-dim": "#cdcd00",
+                        "surface-bright": "#393939",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "on-surface": "#e5e2e1",
+                        "tertiary-fixed": "#eaea00",
+                        "primary": "#ffffff",
+                        "tertiary": "#ffffff",
+                        "inverse-on-surface": "#313030",
+                        "secondary-fixed-dim": "#ffabf3",
+                        "secondary-fixed": "#ffd7f5",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#1d1d00",
+                        "primary-fixed-dim": "#abd600"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "margin-desktop": "64px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "title-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-mono": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-md": ["24px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #000000; color: #ffffff; margin: 0; padding: 0; overflow-x: hidden; }
+        .neon-border-primary { border: 1px solid #c3f400; box-shadow: 0 0 8px #c3f400; }
+        .neon-border-secondary { border: 1px solid #fe00fe; box-shadow: 0 0 8px #fe00fe; }
+        .neon-text-primary { text-shadow: 0 0 4px #c3f400; }
+        .neon-text-secondary { text-shadow: 0 0 4px #fe00fe; }
+        
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.1;
+        }
+
+        /* Custom Scrollbar for Terminals */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; border-left: 1px solid #444933; }
+        ::-webkit-scrollbar-thumb { background: #c3f400; }
+        ::-webkit-scrollbar-thumb:hover { background: #eaea00; }
+    </style>
+</head>
+<body class="bg-black text-primary font-body-md min-h-screen flex flex-col md:flex-row antialiased selection:bg-primary-container selection:text-on-primary-fixed">
+<!-- Top Navigation (Mobile) -->
+<nav class="md:hidden flex justify-between items-center w-full px-margin-mobile py-4 bg-surface border-b border-primary dark:border-primary sticky top-0 z-50 docked full-width top-0" style="box-shadow: 0px 0px 8px #ffffff;">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary tracking-tighter italic">QUESTFLOW</div>
+<div class="flex gap-gutter">
+<span class="material-symbols-outlined text-primary dark:text-primary">notifications</span>
+<span class="material-symbols-outlined text-primary dark:text-primary">person</span>
+</div>
+</nav>
+<!-- Side Navigation (Desktop) -->
+<aside class="hidden md:flex flex-col h-screen fixed left-0 top-0 py-margin-desktop bg-surface-container-low border-r border-outline-variant w-64 z-40">
+<div class="px-4 mb-8">
+<div class="font-headline-lg text-headline-lg font-bold text-primary mb-6">QUESTFLOW</div>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 bg-surface-variant neon-border-primary rounded-none overflow-hidden relative group cursor-pointer">
+<img alt="Architect Avatar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" data-alt="A stylized, low-poly digital avatar portrait in a high-voltage retro-futuristic style. The face is illuminated by harsh cyan and magenta neon lights against a pure black background. Cybernetic implants are visible. Strict geometric shapes and sharp angles define the features, exuding a rebellious digital identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6mYZGV72KuGA9a5ms4QVEdlE8DCphqPLGHb13vR7oXd6TiWVB_BhXuSS5tb-dgnShqH9Jc5pNMgokyqbpz8hJxzoHxzVF67hxNcAzoYyAn7apTUGOeEDgt-3JPTFhOXaj6K7KIkiJPbqgYP7axUgwhfff4RhrWoptc8gLkK9u1Wvm4odjBhIVn_cAJsrw0j3gfIhu4GpyGdFG-D5KtxmlUkKF_V8HD05vx-sqvNdfncGnYeIUB_nE"/>
+<div class="absolute inset-0 bg-primary-container/20 hidden group-hover:block mix-blend-overlay"></div>
+</div>
+<div>
+<div class="font-label-mono text-label-mono text-primary font-bold">LVL 24 ARCHITECT</div>
+<div class="font-label-mono text-xs text-on-surface-variant mt-1">XP: 85% TO NEXT LEVEL</div>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary-fixed font-label-mono text-label-mono font-bold py-3 uppercase hover:bg-tertiary-container transition-colors duration-200 relative overflow-hidden group">
+<span class="relative z-10">NEW QUEST</span>
+<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-200"></div>
+</button>
+</div>
+<nav class="flex-1 flex flex-col gap-2 px-0">
+<a class="flex items-center gap-unit text-on-surface-variant p-4 hover:bg-surface-variant hover:text-primary-container transition-colors duration-200 font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-unit text-on-surface-variant p-4 hover:bg-surface-variant hover:text-primary-container transition-colors duration-200 font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                Habits
+            </a>
+<a class="flex items-center gap-unit text-on-surface-variant p-4 hover:bg-surface-variant hover:text-primary-container transition-colors duration-200 font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">alarm</span>
+                Reminders
+            </a>
+<a class="flex items-center gap-unit bg-primary-container text-on-primary-fixed rounded-none border-l-4 border-white p-4 font-label-mono text-label-mono font-bold translate-x-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">description</span>
+                Notes
+            </a>
+</nav>
+<div class="mt-auto flex flex-col gap-2 px-0 pt-4 border-t border-outline-variant">
+<a class="flex items-center gap-unit text-on-surface-variant p-4 hover:bg-surface-variant hover:text-primary-container transition-colors duration-200 font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+<a class="flex items-center gap-unit text-on-surface-variant p-4 hover:bg-surface-variant hover:text-primary-container transition-colors duration-200 font-label-mono text-label-mono" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Log Out
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-margin-desktop min-h-screen relative overflow-hidden flex flex-col gap-gutter max-w-container-max mx-auto w-full">
+<div class="scanline"></div>
+<!-- Header / Hero -->
+<header class="relative bg-surface p-6 border border-outline-variant neon-border-primary overflow-hidden">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #131313 25%, transparent 25%, transparent 75%, #131313 75%, #131313), repeating-linear-gradient(45deg, #131313 25%, #2a2a2a 25%, #2a2a2a 75%, #131313 75%, #131313); background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg font-bold text-primary mb-2 uppercase tracking-tighter neon-text-primary">Knowledge Vault</h1>
+<p class="font-label-mono text-label-mono text-on-surface-variant">SECURE DATA STORAGE // SECTOR 7G</p>
+</div>
+<div class="flex items-center gap-4 bg-black/50 p-2 border border-outline-variant backdrop-blur-sm">
+<span class="font-label-mono text-label-mono text-primary-container animate-pulse">SYS: ONLINE</span>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<span class="font-label-mono text-label-mono text-secondary-container">UPLINK: ACTIVE</span>
+</div>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter flex-1 items-start">
+<!-- Left Column: Knowledge Shards (List) -->
+<div class="lg:col-span-4 flex flex-col gap-4 h-[calc(100vh-250px)]">
+<div class="flex justify-between items-center mb-2">
+<h2 class="font-title-md text-title-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">folder_open</span>
+                        DATA SHARDS
+                    </h2>
+<button class="text-primary-container hover:text-white transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto pr-2 flex flex-col gap-3">
+<!-- Shard Item (Active) -->
+<div class="bg-surface p-4 border border-primary-container neon-border-primary cursor-pointer relative group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div>
+<div class="flex justify-between items-start mb-2 pl-2">
+<h3 class="font-body-lg text-body-lg font-bold text-primary truncate">Cyber-Infiltration Protocols</h3>
+<span class="font-label-mono text-xs text-on-surface-variant">09:42</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 pl-2 mb-3">Initial vectors secured. Need to bypass main proxy before initiating the sequence payload...</p>
+<div class="flex gap-2 pl-2">
+<span class="px-2 py-1 bg-secondary-container/10 border border-secondary-container text-secondary-container font-label-mono text-[10px] uppercase">STRATEGY</span>
+<span class="px-2 py-1 bg-primary-container/10 border border-primary-container text-primary-container font-label-mono text-[10px] uppercase">URGENT</span>
+</div>
+</div>
+<!-- Shard Item -->
+<div class="bg-surface p-4 border border-outline-variant hover:border-primary-container transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body-lg text-body-lg font-bold text-primary truncate group-hover:text-primary-container transition-colors">Neon District Safehouses</h3>
+<span class="font-label-mono text-xs text-on-surface-variant">YESTERDAY</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-3">Coordinates for sector 4 drops. Ensure biometric locks are disengaged prior to entry.</p>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-tertiary-container/10 border border-tertiary-container text-tertiary-container font-label-mono text-[10px] uppercase">EPIC LOOT</span>
+</div>
+</div>
+<!-- Shard Item -->
+<div class="bg-surface p-4 border border-outline-variant hover:border-primary-container transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body-lg text-body-lg font-bold text-primary truncate group-hover:text-primary-container transition-colors">Neural Interface Specs v2.4</h3>
+<span class="font-label-mono text-xs text-on-surface-variant">12 OCT</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2 mb-3">Bandwidth increased by 40%. Requires cooling gel replacement every 72 hours minimum.</p>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-outline-variant border border-outline text-on-surface font-label-mono text-[10px] uppercase">HARDWARE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Note Editor (Canvas) -->
+<div class="lg:col-span-8 bg-surface border border-outline-variant h-[calc(100vh-250px)] flex flex-col relative">
+<!-- Editor Header -->
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container text-3xl">terminal</span>
+<div>
+<input class="bg-transparent border-none font-title-md text-title-md text-primary focus:ring-0 focus:outline-none p-0 w-full placeholder-on-surface-variant uppercase tracking-wide" placeholder="ENTER TITLE..." type="text" value="Cyber-Infiltration Protocols"/>
+<div class="font-label-mono text-label-mono text-on-surface-variant mt-1 flex gap-4">
+<span>MOD: 09:42 AM</span>
+<span>SIZE: 4.2 KB</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-secondary-container text-secondary-container hover:bg-secondary-container hover:text-on-secondary-fixed transition-colors font-label-mono text-label-mono">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="px-4 py-2 bg-primary-container text-on-primary-fixed font-label-mono text-label-mono font-bold hover:bg-tertiary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">save</span>
+                            SAVE
+                        </button>
+</div>
+</div>
+<!-- Editor Body -->
+<div class="flex-1 p-8 overflow-y-auto font-body-md text-body-md text-on-surface bg-surface-dim relative">
+<!-- Background Grid Pattern -->
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(#c3f400 1px, transparent 1px), linear-gradient(90deg, #c3f400 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="relative z-10 max-w-3xl mx-auto flex flex-col gap-6">
+<!-- Text Block -->
+<div>
+<h3 class="font-title-md text-title-md text-primary-container mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">data_object</span>
+                                INITIAL VECTORS
+                            </h3>
+<p class="mb-4">The mainframe architecture relies on outdated legacy nodes in Sector 7. By exploiting the overflow vulnerability in subsystem C-4, we can bypass the primary proxy without triggering automated countermeasures.</p>
+<blockquote class="border-l-4 border-secondary-container pl-4 py-2 bg-secondary-container/5 font-label-mono text-label-mono text-secondary-container my-6">
+                                WARNING: Failure to maintain synchronization will result in immediate neural feedback loop. Do not exceed 45 seconds exposure.
+                            </blockquote>
+</div>
+<!-- Divider -->
+<div class="w-full h-px bg-gradient-to-r from-transparent via-primary-container to-transparent opacity-50 my-4"></div>
+<!-- Checklist: Core Objectives -->
+<div>
+<h3 class="font-title-md text-title-md text-primary mb-4">CORE OBJECTIVES</h3>
+<div class="flex flex-col gap-3 font-label-mono text-label-mono">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="w-5 h-5 border border-primary-container bg-surface peer-checked:bg-primary-container transition-colors"></div>
+<span class="material-symbols-outlined absolute text-on-primary-fixed text-[16px] opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+</div>
+<span class="text-on-surface group-hover:text-primary transition-colors line-through opacity-50">Establish secure uplink to proxy</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<input class="peer sr-only" type="checkbox"/>
+<div class="w-5 h-5 border border-primary-container bg-surface peer-checked:bg-primary-container transition-colors"></div>
+<span class="material-symbols-outlined absolute text-on-primary-fixed text-[16px] opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+</div>
+<span class="text-on-surface group-hover:text-primary transition-colors">Deploy payload 'GHOST_DANCE'</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<input class="peer sr-only" type="checkbox"/>
+<div class="w-5 h-5 border border-primary-container bg-surface peer-checked:bg-primary-container transition-colors"></div>
+<span class="material-symbols-outlined absolute text-on-primary-fixed text-[16px] opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+</div>
+<span class="text-on-surface group-hover:text-primary transition-colors">Extract target schematics</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative flex items-center justify-center">
+<input class="peer sr-only" type="checkbox"/>
+<div class="w-5 h-5 border border-primary-container bg-surface peer-checked:bg-primary-container transition-colors"></div>
+<span class="material-symbols-outlined absolute text-on-primary-fixed text-[16px] opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+</div>
+<span class="text-on-surface group-hover:text-primary transition-colors">Scrub localized log entries</span>
+</label>
+</div>
+</div>
+<!-- Terminal Output Mockup -->
+<div class="mt-6 bg-black border border-outline-variant p-4 font-label-mono text-label-mono text-tertiary-container shadow-inner">
+<div class="flex justify-between border-b border-outline-variant pb-2 mb-2">
+<span class="text-on-surface-variant text-xs">SYS_LOG_TERMINAL</span>
+<span class="text-primary-container text-xs animate-pulse">REC...</span>
+</div>
+<div class="opacity-80">
+                                &gt; INIT SEQUENCE START<br/>
+                                &gt; BYPASSING FIREWALL... [OK]<br/>
+                                &gt; INJECTING CODE... <span class="text-secondary-container">[WARN: HIGH LATENCY]</span><br/>
+                                &gt; AWAITING MANUAL OVERRIDE_<span class="animate-pulse">|</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

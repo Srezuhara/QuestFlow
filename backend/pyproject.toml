@@ -1,0 +1,78 @@
+[project]
+name = "questflow-backend"
+version = "0.1.0"
+description = "QuestFlow API — gamified productivity backend (FastAPI + Postgres)"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.6.0",
+    "sqlalchemy>=2.0.36",
+    "alembic>=1.13.3",
+    "asyncpg>=0.30.0",
+    "psycopg[binary]>=3.2.3",
+    "argon2-cffi>=23.1.0",
+    "pyjwt>=2.9.0",
+    "email-validator>=2.2.0",
+    "apscheduler>=3.10.4",
+    "pywebpush>=2.0.1",
+    "python-multipart>=0.0.12",
+    "uuid7>=0.1.0",
+    "tzdata>=2024.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.3",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.27.2",
+    "ruff>=0.7.4",
+    "mypy>=1.13.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["app"]
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "I", "UP", "B", "SIM", "C4", "RUF",
+]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"app/tests/*" = ["S101"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Cookie", "fastapi.Query", "fastapi.Header"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"datetime.date.today".msg = "Use core.timeutils.user_today(user) instead — date.today() ignores user timezone and breaks streak/day-cap logic."
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+exclude = ["alembic/"]
+
+[[tool.mypy.overrides]]
+module = "pywebpush.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "uuid_extensions.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["app/tests"]
