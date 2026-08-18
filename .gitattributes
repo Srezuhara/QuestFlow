@@ -1,0 +1,38 @@
+# Line endings
+#
+# Normalize to LF in the repository *and* in every working tree. Without this,
+# behaviour depends on each contributor's local `core.autocrlf` setting, so a
+# Windows clone can show every file as modified purely from CRLF churn — and CI
+# runners (Linux) would disagree with local checkouts. Pinning it here makes the
+# repo the single source of truth.
+#
+# This matches the toolchain: Prettier writes LF, and the api/web containers run
+# Linux against these exact files via bind mounts.
+* text=auto eol=lf
+
+# Windows-native scripts that genuinely require CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary assets — never apply text or EOL conversion to these.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.eot   binary
+
+# Generated files — collapsed by default in GitHub diffs and excluded from
+# language statistics. `types/api.ts` is emitted by openapi-typescript from the
+# live OpenAPI schema and must never be hand-edited.
+frontend/package-lock.json linguist-generated=true
+backend/uv.lock            linguist-generated=true
+frontend/src/types/api.ts  linguist-generated=true
