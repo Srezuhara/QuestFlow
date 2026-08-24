@@ -1,12 +1,12 @@
 import uuid
 from datetime import UTC, datetime
 
-from app.db.session import AsyncSessionLocal
 from app.models.enums import XPSourceType
 from app.schemas.auth import RegisterRequest
 from app.services import auth_service
 from app.services.gamification import xp
 from app.services.gamification.leveling import level_for_xp, xp_floor_for_level, xp_progress
+from app.tests.conftest import TestSessionLocal as AsyncSessionLocal
 
 
 def test_level_for_xp_starts_at_one() -> None:

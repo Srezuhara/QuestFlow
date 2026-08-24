@@ -8,7 +8,8 @@ from datetime import date, datetime
 
 from pydantic import BaseModel, ConfigDict
 
-from app.models.enums import XPSourceType
+from app.models.enums import SkillBranch, XPSourceType
+from app.schemas.achievements import AchievementOut
 from app.schemas.tasks import TaskOut
 
 
@@ -34,12 +35,19 @@ class XPEventOut(BaseModel):
     id: uuid.UUID
     source_type: XPSourceType
     source_id: uuid.UUID
+    skill_branch: SkillBranch | None
     awarded_xp: int
     occurred_on: date
     created_at: datetime
+
+
+class XPEventPageOut(BaseModel):
+    items: list[XPEventOut]
+    next_before: datetime | None
 
 
 class TaskCompleteResponse(BaseModel):
     task: TaskOut
     xp_delta: int
     progress: LevelProgressOut
+    newly_earned_achievements: list[AchievementOut] = []

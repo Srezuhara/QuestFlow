@@ -70,6 +70,10 @@ module = "pywebpush.*"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
+module = "apscheduler.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
 module = "uuid_extensions.*"
 ignore_missing_imports = true
 

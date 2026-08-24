@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { QueryKey } from "@tanstack/react-query";
-import { estimateProgressAfterDelta } from "@/features/progress/hooks";
+import { applyGamificationResult, estimateProgressAfterDelta } from "@/features/progress/hooks";
 import type { LevelProgressOut } from "@/features/progress/api";
 import { queryKeys } from "@/lib/queryKeys";
 import {
@@ -106,7 +106,7 @@ function useToggleTask(
       }
     },
     onSuccess: (result) => {
-      queryClient.setQueryData(queryKeys.progress.me, result.progress);
+      applyGamificationResult(queryClient, result.progress, result.newly_earned_achievements);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.tasks.all });

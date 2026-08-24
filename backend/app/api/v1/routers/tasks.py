@@ -13,11 +13,28 @@ from app.core.deps import get_current_user, get_db
 from app.models.enums import TaskStatus
 from app.models.task import Task
 from app.models.user import User
+from app.schemas.achievements import AchievementOut
 from app.schemas.progress import LevelProgressOut, TaskCompleteResponse
 from app.schemas.tasks import ReorderRequest, TaskCreate, TaskOut, TaskUpdate
 from app.services import task_service
+from app.services.gamification.achievements import EarnedAchievement
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
+
+
+def _to_achievement_out(earned: EarnedAchievement) -> AchievementOut:
+    a = earned.achievement
+    return AchievementOut(
+        id=a.id,
+        code=a.code,
+        name=a.name,
+        description=a.description,
+        tier=a.tier,
+        icon=a.icon,
+        xp_reward=a.xp_reward,
+        earned_at=earned.earned_at,
+        progress_percent=100.0,
+    )
 
 
 @router.get("", response_model=list[TaskOut])
@@ -117,6 +134,9 @@ async def complete_task(
         task=TaskOut.model_validate(result.task),
         xp_delta=result.xp_delta,
         progress=LevelProgressOut.model_validate(result.progress),
+        newly_earned_achievements=[
+            _to_achievement_out(a) for a in result.newly_earned_achievements
+        ],
     )
 
 

@@ -46,10 +46,12 @@ async def test_complete_task_awards_xp_and_updates_progress(auth_client: AsyncCl
     assert body["xp_delta"] == 250
     assert body["task"]["status"] == "done"
     assert body["task"]["completed_at"] is not None
-    assert body["progress"]["total_xp"] == 250
+    # 250 for the task + 100 for the `first_blood` achievement (this is the
+    # user's first completed task), evaluated synchronously per D17.
+    assert body["progress"]["total_xp"] == 350
 
     progress = await auth_client.get("/api/v1/me/progress")
-    assert progress.json()["total_xp"] == 250
+    assert progress.json()["total_xp"] == 350
 
 
 async def test_double_complete_does_not_double_award(auth_client: AsyncClient) -> None:
@@ -61,7 +63,8 @@ async def test_double_complete_does_not_double_award(auth_client: AsyncClient) -
 
     assert first.json()["xp_delta"] == 150
     assert second.json()["xp_delta"] == 0
-    assert second.json()["progress"]["total_xp"] == 150
+    # 150 for the task + 100 for `first_blood`.
+    assert second.json()["progress"]["total_xp"] == 250
 
 
 async def test_complete_uncomplete_complete_nets_single_award(auth_client: AsyncClient) -> None:
@@ -74,17 +77,19 @@ async def test_complete_uncomplete_complete_nets_single_award(auth_client: Async
     uncompleted = await auth_client.patch(f"/api/v1/tasks/{task_id}/uncomplete")
     assert uncompleted.json()["xp_delta"] == -500
     assert uncompleted.json()["task"]["status"] == "todo"
-    assert uncompleted.json()["progress"]["total_xp"] == 0
+    # The one-time `first_blood` achievement (100 XP) is never reversed by
+    # uncompleting the task that earned it — only the task's own 500 XP is.
+    assert uncompleted.json()["progress"]["total_xp"] == 100
 
     recompleted = await auth_client.patch(f"/api/v1/tasks/{task_id}/complete")
     assert recompleted.json()["xp_delta"] == 500
-    assert recompleted.json()["progress"]["total_xp"] == 500
+    assert recompleted.json()["progress"]["total_xp"] == 600
 
     progress = await auth_client.get("/api/v1/me/progress")
-    assert progress.json()["total_xp"] == 500
+    assert progress.json()["total_xp"] == 600
 
     events = await auth_client.get("/api/v1/me/xp-events")
-    assert len(events.json()) == 3
+    assert len(events.json()["items"]) == 4
 
 
 async def test_uncomplete_already_todo_task_is_a_noop(auth_client: AsyncClient) -> None:

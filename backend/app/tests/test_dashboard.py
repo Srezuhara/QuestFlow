@@ -34,9 +34,11 @@ async def test_dashboard_aggregates_objectives_pipeline_and_progress(
     assert [t["title"] for t in body["pipeline"]["due_tomorrow"]] == ["Due tomorrow"]
     assert [t["title"] for t in body["pipeline"]["due_next_week"]] == ["Due next week"]
 
-    assert body["progress"]["total_xp"] == 500
-    assert len(body["recent_activity"]) == 1
-    assert body["recent_activity"][0]["awarded_xp"] == 500
+    # 500 for the urgent task + 100 for the `first_blood` achievement (this
+    # is the user's first completed task), evaluated per D17.
+    assert body["progress"]["total_xp"] == 600
+    assert len(body["recent_activity"]) == 2
+    assert {e["awarded_xp"] for e in body["recent_activity"]} == {500, 100}
 
 
 async def test_dashboard_works_for_a_real_non_utc_timezone(client: AsyncClient) -> None:

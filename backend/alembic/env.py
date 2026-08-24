@@ -26,6 +26,20 @@ config.set_main_option("sqlalchemy.url", settings.database_url)
 target_metadata = Base.metadata
 
 
+def include_object(
+    object: object, name: str | None, type_: str, reflected: bool, compare_to: object
+) -> bool:
+    """`notes.search_vector` is a hand-written `GENERATED ALWAYS AS ... STORED`
+    column (see the migration that adds it) — autogenerate can't produce that
+    DDL and, worse, will try to ALTER/DROP it on every subsequent run if it's
+    left in scope for comparison. Exclude it here so `alembic revision
+    --autogenerate` never touches it.
+    """
+    if type_ == "column" and name == "search_vector":
+        return False
+    return not (type_ == "index" and name == "ix_notes_search_vector")
+
+
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode (emits SQL, no DB connection)."""
     url = config.get_main_option("sqlalchemy.url")
@@ -34,6 +48,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        include_object=include_object,
     )
 
     with context.begin_transaction():
@@ -41,7 +56,9 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection, target_metadata=target_metadata, include_object=include_object
+    )
     with context.begin_transaction():
         context.run_migrations()
 

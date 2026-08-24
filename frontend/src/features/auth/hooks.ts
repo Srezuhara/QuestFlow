@@ -1,8 +1,15 @@
 import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiError } from "@/lib/apiClient";
-import { fetchCurrentUser, loginUser, logoutUser, registerUser } from "./api";
-import type { LoginRequest, RegisterRequest } from "./api";
+import {
+  deleteAccount,
+  fetchCurrentUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+  updateProfile,
+} from "./api";
+import type { LoginRequest, ProfileUpdate, RegisterRequest } from "./api";
 import { useAuthStore } from "./store";
 
 const ME_QUERY_KEY = ["auth", "me"] as const;
@@ -65,6 +72,35 @@ export function useLogout() {
     onSettled: () => {
       clear();
       queryClient.setQueryData(ME_QUERY_KEY, null);
+    },
+  });
+}
+
+/** Same cache-clearing shape as `useLogout` — the account is gone server-side
+ * either way, so `onSettled` (not `onSuccess`) clears local state even if the
+ * response somehow fails after the delete already committed. */
+export function useDeleteAccount() {
+  const queryClient = useQueryClient();
+  const clear = useAuthStore((s) => s.clear);
+
+  return useMutation({
+    mutationFn: () => deleteAccount(),
+    onSettled: () => {
+      clear();
+      queryClient.setQueryData(ME_QUERY_KEY, null);
+    },
+  });
+}
+
+export function useUpdateProfile() {
+  const queryClient = useQueryClient();
+  const setUser = useAuthStore((s) => s.setUser);
+
+  return useMutation({
+    mutationFn: (data: ProfileUpdate) => updateProfile(data),
+    onSuccess: (user) => {
+      setUser(user);
+      queryClient.setQueryData(ME_QUERY_KEY, user);
     },
   });
 }

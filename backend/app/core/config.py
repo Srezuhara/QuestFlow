@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     database_url: str = (
         "postgresql+asyncpg://questflow:questflow_dev_password@localhost:5432/questflow"
     )
+    test_database_url: str = (
+        "postgresql+asyncpg://questflow:questflow_dev_password@localhost:5432/questflow_test"
+    )
 
     # JWT
     jwt_secret_key: str = "change-me-dev-secret-access-do-not-use-in-prod"
@@ -35,8 +38,24 @@ class Settings(BaseSettings):
     vapid_private_key: str = "placeholder-vapid-private-key"
     vapid_subject: str = "mailto:admin@questflow.local"
 
+    # Reminders / worker
+    reminder_poll_seconds: int = 30
+    reminder_batch_size: int = 100
+    reminder_misfire_grace_minutes: int = 60
+    push_concurrency: int = 10
+    push_timeout_seconds: int = 10
+
     # CORS
     cors_origin: str = "http://localhost:5173"
+
+    @property
+    def push_enabled(self) -> bool:
+        """False for a fresh clone's placeholder VAPID keys. Lets the worker
+        log once and fall back to in-app-only delivery instead of
+        crash-looping on a py-vapid parse error, and lets `POST
+        /push/subscriptions` return 503 instead of accepting a subscription
+        nothing can ever deliver to."""
+        return not self.vapid_private_key.startswith("placeholder")
 
 
 @lru_cache

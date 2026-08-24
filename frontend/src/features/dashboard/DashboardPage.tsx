@@ -1,5 +1,7 @@
 import { CalendarDays, ListChecks, Terminal } from "lucide-react";
 import { NeonPanel, TerminalLog } from "@/components/ui";
+import { NetworkActivityPanel } from "@/features/social/components/NetworkActivityPanel";
+import { TopArchitectsPanel } from "@/features/social/components/TopArchitectsPanel";
 import { TaskItem } from "@/features/tasks/components/TaskItem";
 import { useDashboard } from "./hooks";
 
@@ -83,6 +85,7 @@ export function DashboardPage() {
                 lines={dashboard.recent_activity.map((e) =>
                   formatActivityLine(e.source_type, e.awarded_xp, e.occurred_on),
                 )}
+                aria-label="Your recent XP activity"
               />
             )}
           </NeonPanel>
@@ -135,6 +138,9 @@ export function DashboardPage() {
               )}
             </div>
           </NeonPanel>
+
+          <TopArchitectsPanel />
+          <NetworkActivityPanel />
         </aside>
       </div>
     </div>

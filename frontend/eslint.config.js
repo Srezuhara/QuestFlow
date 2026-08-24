@@ -23,5 +23,17 @@ export default tseslint.config(
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
     },
   },
+  {
+    files: ["e2e/**/*.ts", "playwright.config.ts"],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+    },
+    rules: {
+      // Playwright fixtures take a `use` callback (unrelated to React's
+      // `use()`) — the naming collision otherwise trips
+      // react-hooks/rules-of-hooks on every fixture in this directory.
+      "react-hooks/rules-of-hooks": "off",
+    },
+  },
   eslintConfigPrettier,
 );

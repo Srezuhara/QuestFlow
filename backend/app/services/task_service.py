@@ -6,18 +6,19 @@ and translate the exceptions here into HTTP responses.
 from __future__ import annotations
 
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import UTC, datetime
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.timeutils import user_today
-from app.models.enums import TaskPriority, TaskStatus, XPSourceType
+from app.models.enums import SkillBranch, TaskPriority, TaskStatus, XPSourceType
+from app.models.project import Project
 from app.models.task import Task
 from app.models.user import User
 from app.schemas.tasks import TaskCreate, TaskUpdate
-from app.services.gamification import xp
+from app.services.gamification import achievements, xp
 from app.services.gamification.leveling import LevelProgress, xp_progress
 
 # The mockup's own priority -> XP numbers (plan §3 "Award rules").
@@ -42,6 +43,7 @@ class TaskCompletionResult:
     task: Task
     xp_delta: int
     progress: LevelProgress
+    newly_earned_achievements: list[achievements.EarnedAchievement] = field(default_factory=list)
 
 
 async def _get_owned_task(db: AsyncSession, user: User, task_id: uuid.UUID) -> Task:
@@ -49,6 +51,15 @@ async def _get_owned_task(db: AsyncSession, user: User, task_id: uuid.UUID) -> T
     if task is None or task.user_id != user.id:
         raise TaskNotFound
     return task
+
+
+async def _task_skill_branch(db: AsyncSession, task: Task) -> SkillBranch | None:
+    """The task's project's branch, or `None` if it has no project (D15's
+    call-site rule for `task_service`)."""
+    if task.project_id is None:
+        return None
+    project = await db.get(Project, task.project_id)
+    return project.skill_branch if project is not None else None
 
 
 async def _next_position(db: AsyncSession, user: User, project_id: uuid.UUID | None) -> int:
@@ -116,8 +127,8 @@ async def create_subtask(
 
 async def update_task(db: AsyncSession, user: User, task_id: uuid.UUID, data: TaskUpdate) -> Task:
     task = await _get_owned_task(db, user, task_id)
-    for field, value in data.model_dump(exclude_unset=True).items():
-        setattr(task, field, value)
+    for field_name, value in data.model_dump(exclude_unset=True).items():
+        setattr(task, field_name, value)
     await db.commit()
     await db.refresh(task)
     return task
@@ -159,12 +170,16 @@ async def complete_task(db: AsyncSession, user: User, task_id: uuid.UUID) -> Tas
         amount=task.xp_value,
         idempotency_key=f"task_complete:{task.id}:{now.isoformat()}",
         occurred_on=user_today(user),
+        skill_branch=await _task_skill_branch(db, task),
     )
+    newly_earned = await achievements.evaluate(db, user)
     await db.commit()
     await db.refresh(task)
 
     progress = await xp.get_progress(db, user)
-    return TaskCompletionResult(task, task.xp_value, xp_progress(progress.total_xp))
+    return TaskCompletionResult(
+        task, task.xp_value, xp_progress(progress.total_xp), newly_earned
+    )
 
 
 async def uncomplete_task(db: AsyncSession, user: User, task_id: uuid.UUID) -> TaskCompletionResult:
@@ -188,6 +203,7 @@ async def uncomplete_task(db: AsyncSession, user: User, task_id: uuid.UUID) -> T
         amount=xp_delta,
         idempotency_key=f"task_complete:{task.id}:{completed_at.isoformat()}:reversal",
         occurred_on=user_today(user),
+        skill_branch=await _task_skill_branch(db, task),
     )
     await db.commit()
     await db.refresh(task)

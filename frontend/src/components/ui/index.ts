@@ -9,3 +9,6 @@ export { TerminalLog } from "./TerminalLog";
 export { GlowIcon } from "./GlowIcon";
 export { DataGrid } from "./DataGrid";
 export type { DataGridColumn } from "./DataGrid";
+export { LevelUpToast } from "./LevelUpToast";
+export { useLevelUpToastStore, detectLevelUp } from "./levelUpToastStore";
+export type { LevelUpToastItem } from "./levelUpToastStore";

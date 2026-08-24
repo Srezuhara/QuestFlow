@@ -7,12 +7,13 @@ body — see `_set_auth_cookies` / `_clear_auth_cookies`.
 from __future__ import annotations
 
 from fastapi import APIRouter, Cookie, Depends, HTTPException, Request, Response, status
+from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.deps import get_current_user, get_db
 from app.models.user import User
-from app.schemas.auth import LoginRequest, RegisterRequest, UserOut
+from app.schemas.auth import LoginRequest, ProfileUpdate, RegisterRequest, UserOut
 from app.services import auth_service
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -21,7 +22,7 @@ ACCESS_COOKIE = "access_token"
 REFRESH_COOKIE = "refresh_token"
 
 
-def _set_auth_cookies(response: Response, access_token: str, refresh_token: str) -> None:
+def _set_access_cookie(response: Response, access_token: str) -> None:
     secure = settings.environment != "development"
     response.set_cookie(
         ACCESS_COOKIE,
@@ -32,6 +33,10 @@ def _set_auth_cookies(response: Response, access_token: str, refresh_token: str)
         samesite="lax",
         path="/",
     )
+
+
+def _set_refresh_cookie(response: Response, refresh_token: str) -> None:
+    secure = settings.environment != "development"
     response.set_cookie(
         REFRESH_COOKIE,
         refresh_token,
@@ -41,6 +46,11 @@ def _set_auth_cookies(response: Response, access_token: str, refresh_token: str)
         samesite="lax",
         path="/",
     )
+
+
+def _set_auth_cookies(response: Response, access_token: str, refresh_token: str) -> None:
+    _set_access_cookie(response, access_token)
+    _set_refresh_cookie(response, refresh_token)
 
 
 def _clear_auth_cookies(response: Response) -> None:
@@ -88,27 +98,45 @@ async def login(
     return user
 
 
-@router.post("/refresh", status_code=status.HTTP_204_NO_CONTENT)
+def _failed_refresh_response() -> JSONResponse:
+    """A dead/invalid refresh token must not survive the response. Raising
+    `HTTPException` here would discard `Set-Cookie` headers set on the
+    injected `response` — FastAPI's exception handler builds a fresh
+    `JSONResponse` that never sees them, so the dead refresh cookie stays in
+    the browser and gets replayed on every subsequent 401. Returning the
+    `JSONResponse` directly (with the delete-cookie headers attached first)
+    is what actually clears it.
+    """
+    failed = JSONResponse(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        content={"detail": "Invalid or expired session"},
+    )
+    _clear_auth_cookies(failed)
+    return failed
+
+
+@router.post("/refresh")
 async def refresh(
     request: Request,
     response: Response,
     db: AsyncSession = Depends(get_db),
     refresh_token: str | None = Cookie(default=None),
-) -> None:
+) -> Response:
     if refresh_token is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+        return _failed_refresh_response()
 
     try:
         access_token, new_refresh_token = await auth_service.rotate_refresh_token(
             db, refresh_token, request.headers.get("user-agent")
         )
-    except auth_service.InvalidRefreshToken as exc:
-        _clear_auth_cookies(response)
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired session"
-        ) from exc
+    except auth_service.InvalidRefreshToken:
+        return _failed_refresh_response()
 
-    _set_auth_cookies(response, access_token, new_refresh_token)
+    _set_access_cookie(response, access_token)
+    if new_refresh_token is not None:
+        _set_refresh_cookie(response, new_refresh_token)
+    response.status_code = status.HTTP_204_NO_CONTENT
+    return response
 
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
@@ -125,3 +153,22 @@ async def logout(
 @router.get("/me", response_model=UserOut)
 async def me(current_user: User = Depends(get_current_user)) -> User:
     return current_user
+
+
+@router.patch("/me", response_model=UserOut)
+async def update_me(
+    data: ProfileUpdate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> User:
+    return await auth_service.update_profile(db, current_user, data)
+
+
+@router.delete("/me", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_me(
+    response: Response,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> None:
+    await auth_service.delete_account(db, current_user)
+    _clear_auth_cookies(response)

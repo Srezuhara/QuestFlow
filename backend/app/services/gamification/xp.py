@@ -20,16 +20,49 @@ distinct while still catching an exact duplicate call.
 from __future__ import annotations
 
 import uuid
-from datetime import date
+from datetime import date, timedelta
+from itertools import pairwise
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.timeutils import user_today
-from app.models.enums import XPSourceType
+from app.models.enums import SkillBranch, XPSourceType
 from app.models.gamification import UserProgress, XPEvent
 from app.models.user import User
 from app.services.gamification.leveling import level_for_xp
+
+
+async def _streak_days_from_ledger(db: AsyncSession, user_id: uuid.UUID) -> tuple[int, int]:
+    """Derives (current_streak_days, longest_streak_days) from the distinct
+    sorted `occurred_on` dates in `xp_events`. This is the oracle both
+    `award()`'s incremental update and `recompute_progress()` must agree
+    with — computing it the same way in both places guarantees that."""
+    dates = list(
+        await db.scalars(
+            select(XPEvent.occurred_on)
+            .where(XPEvent.user_id == user_id)
+            .distinct()
+            .order_by(XPEvent.occurred_on)
+        )
+    )
+    if not dates:
+        return 0, 0
+
+    longest = 1
+    run = 1
+    for prev, curr in pairwise(dates):
+        run = run + 1 if curr - prev == timedelta(days=1) else 1
+        longest = max(longest, run)
+
+    current = 1
+    for i in range(len(dates) - 1, 0, -1):
+        if dates[i] - dates[i - 1] == timedelta(days=1):
+            current += 1
+        else:
+            break
+
+    return current, longest
 
 
 async def award(
@@ -41,6 +74,7 @@ async def award(
     amount: int,
     idempotency_key: str,
     occurred_on: date | None = None,
+    skill_branch: SkillBranch | None = None,
 ) -> XPEvent | None:
     """Records a (possibly negative, i.e. compensating) XP event and updates
     the `user_progress` projection in the same flush. Returns `None` without
@@ -62,8 +96,10 @@ async def award(
         awarded_xp=amount,
         occurred_on=occurred_on,
         idempotency_key=idempotency_key,
+        skill_branch=skill_branch,
     )
     db.add(event)
+    await db.flush()  # the streak-days query below must see this event
 
     progress = await db.get(UserProgress, user.id)
     if progress is None:
@@ -71,7 +107,14 @@ async def award(
         db.add(progress)
     progress.total_xp = progress.total_xp + amount
     progress.level = level_for_xp(progress.total_xp)
-    progress.last_active_on = occurred_on
+
+    if progress.last_active_on is None or occurred_on > progress.last_active_on:
+        progress.last_active_on = occurred_on
+
+    current_streak_days, longest_from_ledger = await _streak_days_from_ledger(db, user.id)
+    progress.current_streak_days = current_streak_days
+    # Monotonic — never lower it, even if history is later deleted.
+    progress.longest_streak_days = max(progress.longest_streak_days, longest_from_ledger)
 
     await db.flush()
     return event
@@ -110,6 +153,7 @@ async def recompute_progress(db: AsyncSession, user_id: uuid.UUID) -> UserProgre
     last_active_on = await db.scalar(
         select(func.max(XPEvent.occurred_on)).where(XPEvent.user_id == user_id)
     )
+    current_streak_days, longest_streak_days = await _streak_days_from_ledger(db, user_id)
 
     progress = await db.get(UserProgress, user_id)
     if progress is None:
@@ -118,6 +162,8 @@ async def recompute_progress(db: AsyncSession, user_id: uuid.UUID) -> UserProgre
     progress.total_xp = total_xp
     progress.level = level_for_xp(total_xp)
     progress.last_active_on = last_active_on
+    progress.current_streak_days = current_streak_days
+    progress.longest_streak_days = longest_streak_days
 
     await db.flush()
     return progress

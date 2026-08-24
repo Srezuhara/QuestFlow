@@ -1,6 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
+import { detectLevelUp, useLevelUpToastStore } from "@/components/ui/levelUpToastStore";
+import type { AchievementOut } from "@/features/achievements/api";
 import { queryKeys } from "@/lib/queryKeys";
-import { fetchProgress, fetchXpEvents } from "./api";
+import { fetchProgress, fetchXpEvents, fetchXpHistory, fetchXpSummary } from "./api";
 import type { LevelProgressOut } from "./api";
 
 export function useProgress() {
@@ -11,6 +14,25 @@ export function useRecentActivity(limit = 10) {
   return useQuery({
     queryKey: [...queryKeys.progress.xpEvents, limit],
     queryFn: () => fetchXpEvents(limit),
+  });
+}
+
+/** Ledger history, paginated via the server's `before` cursor. "LOAD MORE" is
+ * a button per the plan (§6.11), not scroll-triggered — callers call
+ * `fetchNextPage()` from a click handler, never an intersection observer. */
+export function useXPHistory() {
+  return useInfiniteQuery({
+    queryKey: queryKeys.xp.history,
+    queryFn: ({ pageParam }: { pageParam: string | null }) => fetchXpHistory(pageParam),
+    initialPageParam: null as string | null,
+    getNextPageParam: (lastPage) => lastPage.next_before ?? undefined,
+  });
+}
+
+export function useXPSummary(days = 30) {
+  return useQuery({
+    queryKey: queryKeys.xp.summary(days),
+    queryFn: () => fetchXpSummary(days),
   });
 }
 
@@ -38,4 +60,28 @@ export function estimateProgressAfterDelta<T extends LevelProgressOut>(
     xp_into_level: xpIntoLevel,
     percent,
   };
+}
+
+/**
+ * The one place every gamification-producing mutation (task complete, habit
+ * log, focus complete, skill unlock) reconciles the sidebar XP bar from the
+ * server's authoritative response *and* enqueues level-up / achievement
+ * toasts. Centralised here rather than duplicated in each feature's
+ * `onSuccess` so the "did we actually cross a level boundary" check
+ * (`detectLevelUp`) can't drift between call sites.
+ */
+export function applyGamificationResult(
+  queryClient: QueryClient,
+  progress: LevelProgressOut,
+  newlyEarnedAchievements: AchievementOut[] = [],
+): void {
+  const previous = queryClient.getQueryData<LevelProgressOut>(queryKeys.progress.me);
+  queryClient.setQueryData(queryKeys.progress.me, progress);
+
+  if (detectLevelUp(previous?.level, progress.level)) {
+    useLevelUpToastStore.getState().pushLevelUp(progress.level);
+  }
+  for (const achievement of newlyEarnedAchievements) {
+    useLevelUpToastStore.getState().pushAchievement(achievement);
+  }
 }

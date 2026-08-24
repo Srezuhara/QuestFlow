@@ -100,10 +100,12 @@ export interface paths {
         get: operations["me_api_v1_auth_me_get"];
         put?: never;
         post?: never;
-        delete?: never;
+        /** Delete Me */
+        delete: operations["delete_me_api_v1_auth_me_delete"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** Update Me */
+        patch: operations["update_me_api_v1_auth_me_patch"];
         trace?: never;
     };
     "/api/v1/projects": {
@@ -282,6 +284,252 @@ export interface paths {
         patch: operations["uncomplete_task_api_v1_tasks__task_id__uncomplete_patch"];
         trace?: never;
     };
+    "/api/v1/habits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Habits */
+        get: operations["list_habits_api_v1_habits_get"];
+        put?: never;
+        /** Create Habit */
+        post: operations["create_habit_api_v1_habits_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/habits/{habit_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Archive Habit */
+        delete: operations["archive_habit_api_v1_habits__habit_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Habit */
+        patch: operations["update_habit_api_v1_habits__habit_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/habits/{habit_id}/log": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Log Habit */
+        post: operations["log_habit_api_v1_habits__habit_id__log_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/habits/{habit_id}/log/{logged_for}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Unlog Habit */
+        delete: operations["unlog_habit_api_v1_habits__habit_id__log__logged_for__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/habits/{habit_id}/matrix": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Habit Matrix */
+        get: operations["get_habit_matrix_api_v1_habits__habit_id__matrix_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Notes */
+        get: operations["list_notes_api_v1_notes_get"];
+        put?: never;
+        /** Create Note */
+        post: operations["create_note_api_v1_notes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notes/{note_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Note */
+        get: operations["get_note_api_v1_notes__note_id__get"];
+        put?: never;
+        post?: never;
+        /** Archive Note */
+        delete: operations["archive_note_api_v1_notes__note_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Note */
+        patch: operations["update_note_api_v1_notes__note_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/notes/{note_id}/checkbox": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Toggle Checkbox */
+        patch: operations["toggle_checkbox_api_v1_notes__note_id__checkbox_patch"];
+        trace?: never;
+    };
+    "/api/v1/notes/{note_id}/tasks/{task_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Link Task */
+        post: operations["link_task_api_v1_notes__note_id__tasks__task_id__post"];
+        /** Unlink Task */
+        delete: operations["unlink_task_api_v1_notes__note_id__tasks__task_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/focus/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Sessions */
+        get: operations["list_sessions_api_v1_focus_sessions_get"];
+        put?: never;
+        /** Start Session */
+        post: operations["start_session_api_v1_focus_sessions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/focus/sessions/active": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Active Session */
+        get: operations["get_active_session_api_v1_focus_sessions_active_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/focus/calendar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Calendar */
+        get: operations["get_calendar_api_v1_focus_calendar_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/focus/sessions/{session_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Session */
+        patch: operations["update_session_api_v1_focus_sessions__session_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/me/preferences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Preferences */
+        get: operations["get_preferences_api_v1_me_preferences_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Preferences */
+        patch: operations["update_preferences_api_v1_me_preferences_patch"];
+        trace?: never;
+    };
     "/api/v1/me/progress": {
         parameters: {
             query?: never;
@@ -306,10 +554,83 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** List Xp Events */
+        /**
+         * List Xp Events
+         * @description Keyset-paginated on `(occurred_on desc, created_at desc)`. `before`
+         *     filters `created_at < before`; the response's `next_before` is the last
+         *     row's `created_at` when there may be more, else `null`.
+         */
         get: operations["list_xp_events_api_v1_me_xp_events_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/xp-summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Xp Summary */
+        get: operations["get_xp_summary_api_v1_me_xp_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/achievements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Achievements */
+        get: operations["list_achievements_api_v1_me_achievements_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/skill-tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Skill Tree */
+        get: operations["get_skill_tree_api_v1_me_skill_tree_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/skill-nodes/{code}/unlock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Unlock Node */
+        post: operations["unlock_node_api_v1_skill_nodes__code__unlock_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -333,10 +654,250 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/reminders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Reminders */
+        get: operations["list_reminders_api_v1_reminders_get"];
+        put?: never;
+        /** Create Reminder */
+        post: operations["create_reminder_api_v1_reminders_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/reminders/{reminder_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete Reminder */
+        delete: operations["delete_reminder_api_v1_reminders__reminder_id__delete"];
+        options?: never;
+        head?: never;
+        /** Update Reminder */
+        patch: operations["update_reminder_api_v1_reminders__reminder_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/reminders/{reminder_id}/dismiss": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Dismiss Reminder */
+        post: operations["dismiss_reminder_api_v1_reminders__reminder_id__dismiss_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/push/public-key": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Public Key
+         * @description Diagnostic endpoint — lets the frontend confirm `VITE_VAPID_PUBLIC_KEY`
+         *     matches what the API is actually configured with.
+         */
+        get: operations["get_public_key_api_v1_push_public_key_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/push/subscriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Subscriptions */
+        get: operations["list_subscriptions_api_v1_push_subscriptions_get"];
+        put?: never;
+        /** Create Subscription */
+        post: operations["create_subscription_api_v1_push_subscriptions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/push/subscriptions/{subscription_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete Subscription */
+        delete: operations["delete_subscription_api_v1_push_subscriptions__subscription_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Notifications */
+        get: operations["list_notifications_api_v1_notifications_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/notifications/{notification_id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Mark Read */
+        patch: operations["mark_read_api_v1_notifications__notification_id__read_patch"];
+        trace?: never;
+    };
+    "/api/v1/notifications/read-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark All Read */
+        post: operations["mark_all_read_api_v1_notifications_read_all_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/social/leaderboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Leaderboard */
+        get: operations["get_leaderboard_api_v1_social_leaderboard_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/social/feed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Feed */
+        get: operations["get_feed_api_v1_social_feed_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AchievementOut */
+        AchievementOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Code */
+            code: string;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            tier: components["schemas"]["AchievementTier"];
+            /** Icon */
+            icon: string;
+            /** Xp Reward */
+            xp_reward: number;
+            /** Earned At */
+            earned_at: string | null;
+            /** Progress Percent */
+            progress_percent: number;
+        };
+        /**
+         * AchievementTier
+         * @enum {string}
+         */
+        AchievementTier: "bronze" | "silver" | "gold" | "legendary";
+        /** ActorOut */
+        ActorOut: {
+            /** Handle */
+            handle: string;
+            /** Display Name */
+            display_name: string;
+            /** Title */
+            title: string;
+            /** Avatar Url */
+            avatar_url: string | null;
+        };
+        /** CheckboxToggleRequest */
+        CheckboxToggleRequest: {
+            /** Line Index */
+            line_index: number;
+            /** Checked */
+            checked: boolean;
+        };
         /** DashboardOut */
         DashboardOut: {
             /** Objectives */
@@ -348,10 +909,334 @@ export interface components {
             /** Recent Activity */
             recent_activity: components["schemas"]["XPEventOut"][];
         };
+        /** FeedItemOut */
+        FeedItemOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            actor: components["schemas"]["ActorOut"];
+            source_type: components["schemas"]["XPSourceType"];
+            /** Awarded Xp */
+            awarded_xp: number;
+            skill_branch: components["schemas"]["SkillBranch"] | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** FeedPageOut */
+        FeedPageOut: {
+            /** Items */
+            items: components["schemas"]["FeedItemOut"][];
+            /** Next Before */
+            next_before: string | null;
+        };
+        /** FocusCompleteResponse */
+        FocusCompleteResponse: {
+            session: components["schemas"]["FocusSessionOut"];
+            /** Xp Delta */
+            xp_delta: number;
+            progress: components["schemas"]["LevelProgressOut"];
+            /**
+             * Newly Earned Achievements
+             * @default []
+             */
+            newly_earned_achievements: components["schemas"]["AchievementOut"][];
+        };
+        /** FocusDaySummaryOut */
+        FocusDaySummaryOut: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Focus Seconds */
+            focus_seconds: number;
+            /** Session Count */
+            session_count: number;
+        };
+        /**
+         * FocusMode
+         * @enum {string}
+         */
+        FocusMode: "focus" | "short_break" | "long_break";
+        /** FocusMonthOut */
+        FocusMonthOut: {
+            /** Year */
+            year: number;
+            /** Month */
+            month: number;
+            /** Days */
+            days: components["schemas"]["FocusDaySummaryOut"][];
+        };
+        /** FocusSessionOut */
+        FocusSessionOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Task Id */
+            task_id: string | null;
+            /** Task Title */
+            task_title: string | null;
+            mode: components["schemas"]["FocusMode"];
+            /** Planned Seconds */
+            planned_seconds: number;
+            /** Actual Seconds */
+            actual_seconds: number | null;
+            /**
+             * Started At
+             * Format: date-time
+             */
+            started_at: string;
+            /** Ended At */
+            ended_at: string | null;
+            status: components["schemas"]["FocusStatus"];
+            /** Xp Awarded */
+            xp_awarded: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** FocusSessionStart */
+        FocusSessionStart: {
+            mode: components["schemas"]["FocusMode"];
+            /** Planned Seconds */
+            planned_seconds: number;
+            /** Task Id */
+            task_id?: string | null;
+        };
+        /** FocusSessionUpdate */
+        FocusSessionUpdate: {
+            /**
+             * Action
+             * @enum {string}
+             */
+            action: "complete" | "abandon";
+        };
+        /**
+         * FocusStatus
+         * @enum {string}
+         */
+        FocusStatus: "running" | "completed" | "abandoned";
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /**
+         * HabitCadence
+         * @enum {string}
+         */
+        HabitCadence: "daily" | "weekly" | "custom";
+        /** HabitCreate */
+        HabitCreate: {
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /** @default daily */
+            cadence: components["schemas"]["HabitCadence"];
+            /**
+             * Target Per Period
+             * @default 1
+             */
+            target_per_period: number;
+            /** @default focus */
+            skill_branch: components["schemas"]["SkillBranch"];
+            /**
+             * Xp Value
+             * @default 50
+             */
+            xp_value: number;
+            /** Project Id */
+            project_id?: string | null;
+        };
+        /** HabitLogOut */
+        HabitLogOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Habit Id
+             * Format: uuid
+             */
+            habit_id: string;
+            /**
+             * Logged For
+             * Format: date
+             */
+            logged_for: string;
+            /** Count */
+            count: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** HabitLogRequest */
+        HabitLogRequest: {
+            /** Logged For */
+            logged_for?: string | null;
+            /**
+             * Count
+             * @default 1
+             */
+            count: number;
+        };
+        /** HabitLogResponse */
+        HabitLogResponse: {
+            log: components["schemas"]["HabitLogOut"];
+            streak: components["schemas"]["HabitStreakOut"];
+            /** Xp Delta */
+            xp_delta: number;
+            progress: components["schemas"]["LevelProgressOut"];
+            /**
+             * Newly Earned Achievements
+             * @default []
+             */
+            newly_earned_achievements: components["schemas"]["AchievementOut"][];
+        };
+        /** HabitMatrixCellOut */
+        HabitMatrixCellOut: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Count */
+            count: number;
+            status: components["schemas"]["MatrixCellStatus"];
+        };
+        /** HabitMatrixOut */
+        HabitMatrixOut: {
+            /**
+             * Habit Id
+             * Format: uuid
+             */
+            habit_id: string;
+            /** Days */
+            days: number;
+            /** Cells */
+            cells: components["schemas"]["HabitMatrixCellOut"][];
+        };
+        /** HabitOut */
+        HabitOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Project Id */
+            project_id: string | null;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string | null;
+            cadence: components["schemas"]["HabitCadence"];
+            /** Target Per Period */
+            target_per_period: number;
+            skill_branch: components["schemas"]["SkillBranch"];
+            /** Xp Value */
+            xp_value: number;
+            /** Is Active */
+            is_active: boolean;
+            /** Archived At */
+            archived_at: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            streak: components["schemas"]["HabitStreakOut"];
+            current_period: components["schemas"]["HabitPeriodOut"];
+            /** Due Today */
+            due_today: boolean;
+        };
+        /** HabitPeriodOut */
+        HabitPeriodOut: {
+            /**
+             * Period Start
+             * Format: date
+             */
+            period_start: string;
+            /** Count */
+            count: number;
+            /** Target */
+            target: number;
+            /** Is Hit */
+            is_hit: boolean;
+        };
+        /** HabitStreakOut */
+        HabitStreakOut: {
+            /** Current Streak */
+            current_streak: number;
+            /** Longest Streak */
+            longest_streak: number;
+            /** Last Completed On */
+            last_completed_on: string | null;
+        };
+        /** HabitUpdate */
+        HabitUpdate: {
+            /** Name */
+            name?: string | null;
+            /** Description */
+            description?: string | null;
+            cadence?: components["schemas"]["HabitCadence"] | null;
+            /** Target Per Period */
+            target_per_period?: number | null;
+            skill_branch?: components["schemas"]["SkillBranch"] | null;
+            /** Xp Value */
+            xp_value?: number | null;
+            /** Project Id */
+            project_id?: string | null;
+        };
+        /** LeaderboardEntryOut */
+        LeaderboardEntryOut: {
+            /** Id */
+            id: string;
+            /** Rank */
+            rank: number;
+            actor: components["schemas"]["ActorOut"];
+            /** Level */
+            level: number;
+            /** Total Xp */
+            total_xp: number;
+            /** Current Streak Days */
+            current_streak_days: number;
+        };
+        /** LeaderboardMeOut */
+        LeaderboardMeOut: {
+            /** Rank */
+            rank: number | null;
+            /** Total Xp */
+            total_xp: number;
+            /** Level */
+            level: number;
+            /** Opted In */
+            opted_in: boolean;
+        };
+        /** LeaderboardPageOut */
+        LeaderboardPageOut: {
+            /** Entries */
+            entries: components["schemas"]["LeaderboardEntryOut"][];
+            /** Total */
+            total: number;
+            me: components["schemas"]["LeaderboardMeOut"];
         };
         /** LevelProgressOut */
         LevelProgressOut: {
@@ -366,6 +1251,17 @@ export interface components {
             /** Percent */
             percent: number;
         };
+        /** LinkedTaskOut */
+        LinkedTaskOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Title */
+            title: string;
+            status: components["schemas"]["TaskStatus"];
+        };
         /** LoginRequest */
         LoginRequest: {
             /**
@@ -376,12 +1272,186 @@ export interface components {
             /** Password */
             password: string;
         };
+        /** MarkAllReadResponse */
+        MarkAllReadResponse: {
+            /** Marked Count */
+            marked_count: number;
+        };
+        /**
+         * MatrixCellStatus
+         * @enum {string}
+         */
+        MatrixCellStatus: "empty" | "partial" | "hit" | "exceeded" | "broken";
+        /** NoteCreate */
+        NoteCreate: {
+            /** Title */
+            title: string;
+            /**
+             * Body Md
+             * @default
+             */
+            body_md: string;
+            /**
+             * Is Pinned
+             * @default false
+             */
+            is_pinned: boolean;
+            /** Tag Slugs */
+            tag_slugs?: string[];
+            /** Task Ids */
+            task_ids?: string[];
+        };
+        /** NoteOut */
+        NoteOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Title */
+            title: string;
+            /** Body Md */
+            body_md: string;
+            /** Is Pinned */
+            is_pinned: boolean;
+            /** Archived At */
+            archived_at: string | null;
+            /** Tags */
+            tags: components["schemas"]["TagOut"][];
+            /** Linked Tasks */
+            linked_tasks: components["schemas"]["LinkedTaskOut"][];
+            /** Size Bytes */
+            size_bytes: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            /**
+             * Newly Earned Achievements
+             * @default []
+             */
+            newly_earned_achievements: components["schemas"]["AchievementOut"][];
+        };
+        /**
+         * NoteSummaryOut
+         * @description The list-panel shape — never ships the whole body.
+         */
+        NoteSummaryOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Title */
+            title: string;
+            /** Excerpt */
+            excerpt: string;
+            /** Is Pinned */
+            is_pinned: boolean;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+            /** Tags */
+            tags: components["schemas"]["TagOut"][];
+        };
+        /** NoteUpdate */
+        NoteUpdate: {
+            /** Title */
+            title?: string | null;
+            /** Body Md */
+            body_md?: string | null;
+            /** Is Pinned */
+            is_pinned?: boolean | null;
+            /** Tag Slugs */
+            tag_slugs?: string[] | null;
+        };
+        /** NotificationOut */
+        NotificationOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            type: components["schemas"]["NotificationType"];
+            /** Payload */
+            payload: {
+                [key: string]: unknown;
+            };
+            /** Read At */
+            read_at: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** NotificationPageOut */
+        NotificationPageOut: {
+            /** Items */
+            items: components["schemas"]["NotificationOut"][];
+            /** Next Before */
+            next_before: string | null;
+            /** Unread Count */
+            unread_count: number;
+        };
+        /**
+         * NotificationType
+         * @enum {string}
+         */
+        NotificationType: "reminder" | "achievement" | "level_up" | "streak_risk" | "system";
         /** PipelineOut */
         PipelineOut: {
             /** Due Tomorrow */
             due_tomorrow: components["schemas"]["TaskOut"][];
             /** Due Next Week */
             due_next_week: components["schemas"]["TaskOut"][];
+        };
+        /** PreferencesOut */
+        PreferencesOut: {
+            /** Focus Minutes */
+            focus_minutes: number;
+            /** Short Break Minutes */
+            short_break_minutes: number;
+            /** Long Break Minutes */
+            long_break_minutes: number;
+            /** Sessions Before Long Break */
+            sessions_before_long_break: number;
+            /** Sound Enabled */
+            sound_enabled: boolean;
+            /** Leaderboard Opt In */
+            leaderboard_opt_in: boolean;
+        };
+        /** PreferencesUpdate */
+        PreferencesUpdate: {
+            /** Focus Minutes */
+            focus_minutes?: number | null;
+            /** Short Break Minutes */
+            short_break_minutes?: number | null;
+            /** Long Break Minutes */
+            long_break_minutes?: number | null;
+            /** Sessions Before Long Break */
+            sessions_before_long_break?: number | null;
+            /** Sound Enabled */
+            sound_enabled?: boolean | null;
+            /** Leaderboard Opt In */
+            leaderboard_opt_in?: boolean | null;
+        };
+        /** ProfileUpdate */
+        ProfileUpdate: {
+            /** Display Name */
+            display_name?: string | null;
+            /** Title */
+            title?: string | null;
+            /** Avatar Url */
+            avatar_url?: string | null;
         };
         /** ProjectCreate */
         ProjectCreate: {
@@ -439,6 +1509,41 @@ export interface components {
             /** Position */
             position?: number | null;
         };
+        /** PublicKeyOut */
+        PublicKeyOut: {
+            /** Public Key */
+            public_key: string | null;
+            /** Push Enabled */
+            push_enabled: boolean;
+        };
+        /** PushSubscriptionCreate */
+        PushSubscriptionCreate: {
+            /** Endpoint */
+            endpoint: string;
+            /** P256Dh */
+            p256dh: string;
+            /** Auth */
+            auth: string;
+            /** User Agent */
+            user_agent?: string | null;
+        };
+        /** PushSubscriptionOut */
+        PushSubscriptionOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Endpoint */
+            endpoint: string;
+            /** User Agent */
+            user_agent: string | null;
+            /**
+             * Last Seen At
+             * Format: date-time
+             */
+            last_seen_at: string;
+        };
         /** RegisterRequest */
         RegisterRequest: {
             /**
@@ -458,6 +1563,94 @@ export interface components {
              */
             timezone: string;
         };
+        /**
+         * ReminderChannel
+         * @enum {string}
+         */
+        ReminderChannel: "push" | "in_app";
+        /** ReminderCreate */
+        ReminderCreate: {
+            /** Message */
+            message: string;
+            /**
+             * Remind At
+             * Format: date-time
+             */
+            remind_at: string;
+            /** Task Id */
+            task_id?: string | null;
+            /** Habit Id */
+            habit_id?: string | null;
+            /** Rrule */
+            rrule?: string | null;
+            /** Channels */
+            channels?: components["schemas"]["ReminderChannel"][];
+        };
+        /** ReminderOut */
+        ReminderOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Message */
+            message: string;
+            /**
+             * Remind At
+             * Format: date-time
+             */
+            remind_at: string;
+            /** Task Id */
+            task_id: string | null;
+            /** Habit Id */
+            habit_id: string | null;
+            /** Target Label */
+            target_label: string | null;
+            /** Rrule */
+            rrule: string | null;
+            /** Channels */
+            channels: components["schemas"]["ReminderChannel"][];
+            status: components["schemas"]["ReminderStatus"];
+            /** Sent At */
+            sent_at: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** ReminderPageOut */
+        ReminderPageOut: {
+            /** Items */
+            items: components["schemas"]["ReminderOut"][];
+            /** Next Before */
+            next_before: string | null;
+        };
+        /**
+         * ReminderStatus
+         * @enum {string}
+         */
+        ReminderStatus: "scheduled" | "sent" | "dismissed" | "cancelled";
+        /** ReminderUpdate */
+        ReminderUpdate: {
+            /** Message */
+            message?: string | null;
+            /** Remind At */
+            remind_at?: string | null;
+            /** Task Id */
+            task_id?: string | null;
+            /** Habit Id */
+            habit_id?: string | null;
+            /** Rrule */
+            rrule?: string | null;
+            /** Channels */
+            channels?: components["schemas"]["ReminderChannel"][] | null;
+        };
         /** ReorderRequest */
         ReorderRequest: {
             /** Task Ids */
@@ -468,6 +1661,50 @@ export interface components {
          * @enum {string}
          */
         SkillBranch: "focus" | "health" | "discipline" | "growth" | "wealth";
+        /** SkillNodeOut */
+        SkillNodeOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Code */
+            code: string;
+            branch: components["schemas"]["SkillBranch"] | null;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Tier */
+            tier: number;
+            /** Xp Cost */
+            xp_cost: number;
+            /** Prerequisite Codes */
+            prerequisite_codes: string[];
+            /** Icon */
+            icon: string;
+            /** Layout X */
+            layout_x: number;
+            /** Layout Y */
+            layout_y: number;
+            state: components["schemas"]["SkillNodeState"];
+            /** Unlocked At */
+            unlocked_at: string | null;
+        };
+        /**
+         * SkillNodeState
+         * @enum {string}
+         */
+        SkillNodeState: "locked" | "available" | "unlocked";
+        /** SkillTreeOut */
+        SkillTreeOut: {
+            /** Nodes */
+            nodes: components["schemas"]["SkillNodeOut"][];
+            /** Branch Xp */
+            branch_xp: {
+                [key: string]: number;
+            };
+        };
         /** TagCreate */
         TagCreate: {
             /** Name */
@@ -507,6 +1744,11 @@ export interface components {
             /** Xp Delta */
             xp_delta: number;
             progress: components["schemas"]["LevelProgressOut"];
+            /**
+             * Newly Earned Achievements
+             * @default []
+             */
+            newly_earned_achievements: components["schemas"]["AchievementOut"][];
         };
         /** TaskCreate */
         TaskCreate: {
@@ -591,6 +1833,17 @@ export interface components {
             /** Position */
             position?: number | null;
         };
+        /** UnlockResponse */
+        UnlockResponse: {
+            node: components["schemas"]["SkillNodeOut"];
+            /** Newly Available */
+            newly_available: string[];
+            /** Xp Delta */
+            xp_delta: number;
+            progress: components["schemas"]["LevelProgressOut"];
+            /** Newly Earned Achievements */
+            newly_earned_achievements: components["schemas"]["AchievementOut"][];
+        };
         /** UserOut */
         UserOut: {
             /**
@@ -643,6 +1896,22 @@ export interface components {
             /** Context */
             ctx?: Record<string, never>;
         };
+        /** XPBranchSummary */
+        XPBranchSummary: {
+            branch: components["schemas"]["SkillBranch"];
+            /** Xp */
+            xp: number;
+        };
+        /** XPDaySummary */
+        XPDaySummary: {
+            /**
+             * Date
+             * Format: date
+             */
+            date: string;
+            /** Xp */
+            xp: number;
+        };
         /** XPEventOut */
         XPEventOut: {
             /**
@@ -656,6 +1925,7 @@ export interface components {
              * Format: uuid
              */
             source_id: string;
+            skill_branch: components["schemas"]["SkillBranch"] | null;
             /** Awarded Xp */
             awarded_xp: number;
             /**
@@ -669,11 +1939,33 @@ export interface components {
              */
             created_at: string;
         };
+        /** XPEventPageOut */
+        XPEventPageOut: {
+            /** Items */
+            items: components["schemas"]["XPEventOut"][];
+            /** Next Before */
+            next_before: string | null;
+        };
+        /** XPSourceSummary */
+        XPSourceSummary: {
+            source_type: components["schemas"]["XPSourceType"];
+            /** Xp */
+            xp: number;
+        };
         /**
          * XPSourceType
          * @enum {string}
          */
         XPSourceType: "task_complete" | "habit_log" | "streak_bonus" | "focus_session" | "achievement";
+        /** XPSummaryOut */
+        XPSummaryOut: {
+            /** Days */
+            days: components["schemas"]["XPDaySummary"][];
+            /** By Branch */
+            by_branch: components["schemas"]["XPBranchSummary"][];
+            /** By Source */
+            by_source: components["schemas"]["XPSourceSummary"][];
+        };
     };
     responses: never;
     parameters: never;
@@ -783,11 +2075,13 @@ export interface operations {
         requestBody?: never;
         responses: {
             /** @description Successful Response */
-            204: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": unknown;
+                };
             };
             /** @description Validation Error */
             422: {
@@ -839,6 +2133,70 @@ export interface operations {
             };
         };
         requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_me_api_v1_auth_me_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_me_api_v1_auth_me_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProfileUpdate"];
+            };
+        };
         responses: {
             /** @description Successful Response */
             200: {
@@ -1403,6 +2761,762 @@ export interface operations {
             };
         };
     };
+    list_habits_api_v1_habits_get: {
+        parameters: {
+            query?: {
+                include_archived?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HabitOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_habit_api_v1_habits_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HabitCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HabitOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_habit_api_v1_habits__habit_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                habit_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_habit_api_v1_habits__habit_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                habit_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HabitUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HabitOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    log_habit_api_v1_habits__habit_id__log_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                habit_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HabitLogRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HabitLogResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    unlog_habit_api_v1_habits__habit_id__log__logged_for__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                habit_id: string;
+                logged_for: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HabitLogResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_habit_matrix_api_v1_habits__habit_id__matrix_get: {
+        parameters: {
+            query?: {
+                days?: number;
+            };
+            header?: never;
+            path: {
+                habit_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HabitMatrixOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_notes_api_v1_notes_get: {
+        parameters: {
+            query?: {
+                q?: string | null;
+                tag?: string[];
+                include_archived?: boolean;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NoteSummaryOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_note_api_v1_notes_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NoteCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NoteOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_note_api_v1_notes__note_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                note_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NoteOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    archive_note_api_v1_notes__note_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                note_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_note_api_v1_notes__note_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                note_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NoteUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NoteOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    toggle_checkbox_api_v1_notes__note_id__checkbox_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                note_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CheckboxToggleRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NoteOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    link_task_api_v1_notes__note_id__tasks__task_id__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                note_id: string;
+                task_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NoteOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    unlink_task_api_v1_notes__note_id__tasks__task_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                note_id: string;
+                task_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NoteOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_sessions_api_v1_focus_sessions_get: {
+        parameters: {
+            query?: {
+                on_date?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusSessionOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    start_session_api_v1_focus_sessions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FocusSessionStart"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusSessionOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_active_session_api_v1_focus_sessions_active_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusSessionOut"] | null;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_calendar_api_v1_focus_calendar_get: {
+        parameters: {
+            query: {
+                year: number;
+                month: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusMonthOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_session_api_v1_focus_sessions__session_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FocusSessionUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FocusCompleteResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_preferences_api_v1_me_preferences_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PreferencesOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_preferences_api_v1_me_preferences_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreferencesUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PreferencesOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     get_progress_api_v1_me_progress_get: {
         parameters: {
             query?: never;
@@ -1438,6 +3552,7 @@ export interface operations {
         parameters: {
             query?: {
                 limit?: number;
+                before?: string | null;
             };
             header?: never;
             path?: never;
@@ -1453,7 +3568,135 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["XPEventOut"][];
+                    "application/json": components["schemas"]["XPEventPageOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_xp_summary_api_v1_me_xp_summary_get: {
+        parameters: {
+            query?: {
+                days?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["XPSummaryOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_achievements_api_v1_me_achievements_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AchievementOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_skill_tree_api_v1_me_skill_tree_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SkillTreeOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    unlock_node_api_v1_skill_nodes__code__unlock_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UnlockResponse"];
                 };
             };
             /** @description Validation Error */
@@ -1485,6 +3728,461 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DashboardOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_reminders_api_v1_reminders_get: {
+        parameters: {
+            query?: {
+                status?: components["schemas"]["ReminderStatus"] | null;
+                limit?: number;
+                before?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReminderPageOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_reminder_api_v1_reminders_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReminderCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReminderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_reminder_api_v1_reminders__reminder_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                reminder_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_reminder_api_v1_reminders__reminder_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                reminder_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReminderUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReminderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    dismiss_reminder_api_v1_reminders__reminder_id__dismiss_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                reminder_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReminderOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_public_key_api_v1_push_public_key_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicKeyOut"];
+                };
+            };
+        };
+    };
+    list_subscriptions_api_v1_push_subscriptions_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PushSubscriptionOut"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_subscription_api_v1_push_subscriptions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PushSubscriptionCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PushSubscriptionOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_subscription_api_v1_push_subscriptions__subscription_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                subscription_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_notifications_api_v1_notifications_get: {
+        parameters: {
+            query?: {
+                unread_only?: boolean;
+                limit?: number;
+                before?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotificationPageOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    mark_read_api_v1_notifications__notification_id__read_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                notification_id: string;
+            };
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotificationOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    mark_all_read_api_v1_notifications_read_all_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MarkAllReadResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_leaderboard_api_v1_social_leaderboard_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeaderboardPageOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_feed_api_v1_social_feed_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+                before?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: {
+                access_token?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FeedPageOut"];
                 };
             };
             /** @description Validation Error */
