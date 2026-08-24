@@ -58,3 +58,8 @@ PHASE_*_PLAN.md
 # --- Source mockup archive ---
 # Already extracted to design/ — no need to track the zip as well.
 stitch_questboard_productivity_hub.zip
+
+# --- Playwright e2e output ---
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
